@@ -12,6 +12,8 @@ class SecondViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        print(delegate.currentCity)
         // Do any additional setup after loading the view, typically from a nib.
     }
 

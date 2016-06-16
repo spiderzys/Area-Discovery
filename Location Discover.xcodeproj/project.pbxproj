@@ -14,6 +14,7 @@
 		6974E4871D11B654005EC792 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6974E4861D11B654005EC792 /* Assets.xcassets */; };
 		6974E48A1D11B654005EC792 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6974E4881D11B654005EC792 /* LaunchScreen.storyboard */; };
 		6974E4951D11B654005EC792 /* Location_DiscoverUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6974E4941D11B654005EC792 /* Location_DiscoverUITests.swift */; };
+		6974E4A01D11B8D0005EC792 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6974E49F1D11B8D0005EC792 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,9 +36,10 @@
 		6974E4861D11B654005EC792 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6974E4891D11B654005EC792 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6974E48B1D11B654005EC792 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6974E4901D11B654005EC792 /* Location DiscoverUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Location DiscoverUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6974E4901D11B654005EC792 /* Location Discover.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Location Discover.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6974E4941D11B654005EC792 /* Location_DiscoverUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location_DiscoverUITests.swift; sourceTree = "<group>"; };
 		6974E4961D11B654005EC792 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6974E49F1D11B8D0005EC792 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6974E4A01D11B8D0005EC792 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +64,7 @@
 		6974E4711D11B653005EC792 = {
 			isa = PBXGroup;
 			children = (
+				6974E49F1D11B8D0005EC792 /* MapKit.framework */,
 				6974E47C1D11B653005EC792 /* Location Discover */,
 				6974E4931D11B654005EC792 /* Location DiscoverUITests */,
 				6974E47B1D11B653005EC792 /* Products */,
@@ -71,7 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				6974E47A1D11B653005EC792 /* Location Discover.app */,
-				6974E4901D11B654005EC792 /* Location DiscoverUITests.xctest */,
+				6974E4901D11B654005EC792 /* Location Discover.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -134,7 +138,7 @@
 			);
 			name = "Location DiscoverUITests";
 			productName = "Location DiscoverUITests";
-			productReference = 6974E4901D11B654005EC792 /* Location DiscoverUITests.xctest */;
+			productReference = 6974E4901D11B654005EC792 /* Location Discover.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -336,7 +340,7 @@
 				INFOPLIST_FILE = "Location Discover/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "zys.Location-Discover";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Location Discover";
 			};
 			name = Debug;
 		};
@@ -347,7 +351,7 @@
 				INFOPLIST_FILE = "Location Discover/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "zys.Location-Discover";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Location Discover";
 			};
 			name = Release;
 		};
@@ -357,7 +361,7 @@
 				INFOPLIST_FILE = "Location DiscoverUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "zys.Location-DiscoverUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Location Discover";
 				TEST_TARGET_NAME = "Location Discover";
 			};
 			name = Debug;
@@ -368,7 +372,7 @@
 				INFOPLIST_FILE = "Location DiscoverUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "zys.Location-DiscoverUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Location Discover";
 				TEST_TARGET_NAME = "Location Discover";
 			};
 			name = Release;
@@ -392,6 +396,7 @@
 				6974E49B1D11B654005EC792 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6974E49C1D11B654005EC792 /* Build configuration list for PBXNativeTarget "Location DiscoverUITests" */ = {
 			isa = XCConfigurationList;
@@ -400,6 +405,7 @@
 				6974E49E1D11B654005EC792 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
