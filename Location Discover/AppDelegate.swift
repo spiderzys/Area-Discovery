@@ -12,9 +12,7 @@ import MapKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    var currentCity: String?
-    var currentState: String?
-    var currentCountry: String?
+    var addressDic: [String:String?]?
     
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
