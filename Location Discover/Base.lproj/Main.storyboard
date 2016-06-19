@@ -27,10 +27,10 @@
                                     <outletCollection property="gestureRecognizers" destination="r9y-L2-oER" appends="YES" id="xRk-6p-Mah"/>
                                 </connections>
                             </mapView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7j-ci-vM4">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7j-ci-vM4">
                                 <rect key="frame" x="20" y="491" width="515" height="60"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.41923148560000001" green="0.3475793049" blue="0.57389152489999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.73715244160000004" green="0.60793635859999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Uu-0b-ogn">
@@ -45,22 +45,17 @@
                                 </connections>
                             </button>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Input address" translatesAutoresizingMaskIntoConstraints="NO" id="UTG-If-5rh">
-                                <rect key="frame" x="10" y="25" width="580" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="bA7-rX-0iO"/>
-                                </constraints>
+                                <rect key="frame" x="10" y="25" width="580" height="60"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="9pv-A4-QxB" id="Zd0-ZG-NTh"/>
                                 </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xHt-hG-a8t">
-                                <rect key="frame" x="20" y="55" width="561" height="100"/>
+                                <rect key="frame" x="20" y="75" width="560" height="120"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="PiW-Sf-Kkv"/>
-                                </constraints>
                                 <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="sectionIndexColor" red="0.57983654129999995" green="0.480734842" blue="0.79374590970000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="9pv-A4-QxB" id="Irt-Ti-WZE"/>
@@ -70,7 +65,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="UTG-If-5rh" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="10" id="69h-I0-F9U"/>
+                            <constraint firstItem="UTG-If-5rh" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.1" id="0zJ-6b-MBQ"/>
                             <constraint firstItem="1Uu-0b-ogn" firstAttribute="height" secondItem="Z7j-ci-vM4" secondAttribute="height" multiplier="0.5" id="71H-D8-c3q"/>
                             <constraint firstItem="UTG-If-5rh" firstAttribute="trailing" secondItem="tsR-hK-woN" secondAttribute="trailingMargin" constant="10" id="BVr-pM-X50"/>
                             <constraint firstItem="1Uu-0b-ogn" firstAttribute="leading" secondItem="Z7j-ci-vM4" secondAttribute="trailing" constant="15" id="CAG-gb-8NW"/>
@@ -84,15 +79,11 @@
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="1Uu-0b-ogn" secondAttribute="bottom" id="bMb-5w-qcQ"/>
                             <constraint firstItem="UTG-If-5rh" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="c9D-jV-yZK"/>
                             <constraint firstItem="Z7j-ci-vM4" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="m16-bn-Zy3"/>
-                            <constraint firstItem="xHt-hG-a8t" firstAttribute="width" secondItem="UTG-If-5rh" secondAttribute="width" constant="-19" id="uRZ-Gr-wWO"/>
+                            <constraint firstItem="xHt-hG-a8t" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.2" id="tH8-se-PMo"/>
+                            <constraint firstItem="xHt-hG-a8t" firstAttribute="width" secondItem="UTG-If-5rh" secondAttribute="width" constant="-20" id="uRZ-Gr-wWO"/>
                             <constraint firstItem="fb6-ga-nql" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="-20" id="y28-CU-02W"/>
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="Z7j-ci-vM4" secondAttribute="bottom" id="y2d-bd-AkV"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="69h-I0-F9U"/>
-                            </mask>
-                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" id="acW-dT-cKf"/>
                     <connections>
@@ -112,7 +103,7 @@
             </objects>
             <point key="canvasLocation" x="750" y="-320"/>
         </scene>
-        <!--Second-->
+        <!--Forecast-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
                 <viewController id="8rJ-Kc-sve" customClass="SecondViewController" customModule="Location_Discover" customModuleProvider="target" sceneMemberID="viewController">
@@ -124,31 +115,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Second View" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5">
-                                <rect key="frame" x="195" y="279" width="210" height="42"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Loaded by SecondViewController" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NDk-cv-Gan">
-                                <rect key="frame" x="192" y="329" width="216" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zrx-Ss-Kws">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tGT-We-xki" customClass="Chart" customModule="SwiftChart">
+                                <rect key="frame" x="2" y="299" width="596" height="252"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="NDk-cv-Gan" firstAttribute="top" secondItem="zEq-FU-wV5" secondAttribute="bottom" constant="8" symbolic="YES" id="Day-4N-Vmt"/>
-                            <constraint firstItem="NDk-cv-Gan" firstAttribute="centerX" secondItem="zEq-FU-wV5" secondAttribute="centerX" id="JgO-Fn-dHn"/>
-                            <constraint firstAttribute="centerX" secondItem="zEq-FU-wV5" secondAttribute="centerX" id="qqM-NS-xev"/>
-                            <constraint firstAttribute="centerY" secondItem="zEq-FU-wV5" secondAttribute="centerY" id="qzY-Ky-pLD"/>
+                            <constraint firstItem="Djb-ko-YwX" firstAttribute="top" secondItem="zrx-Ss-Kws" secondAttribute="bottom" id="0pn-zI-ZXH"/>
+                            <constraint firstItem="zrx-Ss-Kws" firstAttribute="top" secondItem="QS5-Rx-YEW" secondAttribute="topMargin" id="4fQ-AZ-ahA"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="tGT-We-xki" secondAttribute="trailing" constant="-18" id="KMi-ga-RyH"/>
+                            <constraint firstItem="tGT-We-xki" firstAttribute="height" secondItem="QS5-Rx-YEW" secondAttribute="height" multiplier="0.42" id="U0h-qb-aSy"/>
+                            <constraint firstItem="tGT-We-xki" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="-18" id="csm-Zn-wXe"/>
+                            <constraint firstItem="Djb-ko-YwX" firstAttribute="top" secondItem="tGT-We-xki" secondAttribute="bottom" id="p0b-S2-nEK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="zrx-Ss-Kws" secondAttribute="trailing" constant="-20" id="po6-zT-OnN"/>
+                            <constraint firstItem="zrx-Ss-Kws" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="-20" id="sdk-H3-fre"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Forecast" id="cPa-gy-q4n"/>
+                    <connections>
+                        <outlet property="backgroundImageView" destination="zrx-Ss-Kws" id="M6h-x3-84e"/>
+                        <outlet property="forecastChart" destination="tGT-We-xki" id="B1K-L0-VvF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="down" id="T6o-Us-kur">
+                    <connections>
+                        <action selector="refresh:" destination="8rJ-Kc-sve" id="imx-sc-zDU"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="750" y="360"/>
         </scene>
@@ -160,10 +159,8 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="tintColor" red="0.57983654129999995" green="0.480734842" blue="0.79374590970000003" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="selectedImageTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="selectedImageTintColor" red="0.73715244160000004" green="0.60793635859999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
@@ -175,4 +172,5 @@
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
     </scenes>
+    <color key="tintColor" red="0.73715244160000004" green="0.60793635859999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

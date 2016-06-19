@@ -15,6 +15,7 @@
 		6974E48A1D11B654005EC792 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6974E4881D11B654005EC792 /* LaunchScreen.storyboard */; };
 		6974E4951D11B654005EC792 /* Location_DiscoverUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6974E4941D11B654005EC792 /* Location_DiscoverUITests.swift */; };
 		6974E4A01D11B8D0005EC792 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6974E49F1D11B8D0005EC792 /* MapKit.framework */; };
+		EF5B82AFCD1E9E856FA7DB4F /* Pods_Location_Discover.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304AE0E1072725814A824F5F /* Pods_Location_Discover.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C2D2FAF8E1197B2C1B7AF9A /* Pods-Location Discover.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Location Discover.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Location Discover/Pods-Location Discover.debug.xcconfig"; sourceTree = "<group>"; };
+		304AE0E1072725814A824F5F /* Pods_Location_Discover.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Location_Discover.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6974E47A1D11B653005EC792 /* Location Discover.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Location Discover.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6974E47D1D11B653005EC792 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6974E47F1D11B654005EC792 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -40,6 +43,7 @@
 		6974E4941D11B654005EC792 /* Location_DiscoverUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location_DiscoverUITests.swift; sourceTree = "<group>"; };
 		6974E4961D11B654005EC792 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6974E49F1D11B8D0005EC792 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		FE425D3478C86F23B396E4DD /* Pods-Location Discover.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Location Discover.release.xcconfig"; path = "Pods/Target Support Files/Pods-Location Discover/Pods-Location Discover.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +52,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6974E4A01D11B8D0005EC792 /* MapKit.framework in Frameworks */,
+				EF5B82AFCD1E9E856FA7DB4F /* Pods_Location_Discover.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +66,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		156106B0E5F648FD9DF33EDF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				304AE0E1072725814A824F5F /* Pods_Location_Discover.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		6974E4711D11B653005EC792 = {
 			isa = PBXGroup;
 			children = (
@@ -68,6 +81,8 @@
 				6974E47C1D11B653005EC792 /* Location Discover */,
 				6974E4931D11B654005EC792 /* Location DiscoverUITests */,
 				6974E47B1D11B653005EC792 /* Products */,
+				8385D4C8EE04633079722E42 /* Pods */,
+				156106B0E5F648FD9DF33EDF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,6 +118,15 @@
 			path = "Location DiscoverUITests";
 			sourceTree = "<group>";
 		};
+		8385D4C8EE04633079722E42 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1C2D2FAF8E1197B2C1B7AF9A /* Pods-Location Discover.debug.xcconfig */,
+				FE425D3478C86F23B396E4DD /* Pods-Location Discover.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -110,9 +134,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6974E4991D11B654005EC792 /* Build configuration list for PBXNativeTarget "Location Discover" */;
 			buildPhases = (
+				545FA4D561F0EC4B18B96FA2 /* Check Pods Manifest.lock */,
 				6974E4761D11B653005EC792 /* Sources */,
 				6974E4771D11B653005EC792 /* Frameworks */,
 				6974E4781D11B653005EC792 /* Resources */,
+				A1983D3240FF1EC8A6E72115 /* Embed Pods Frameworks */,
+				F5FFC3C3DF81931126173686 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -198,6 +225,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		545FA4D561F0EC4B18B96FA2 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A1983D3240FF1EC8A6E72115 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Location Discover/Pods-Location Discover-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F5FFC3C3DF81931126173686 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Location Discover/Pods-Location Discover-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6974E4761D11B653005EC792 /* Sources */ = {
@@ -335,6 +410,7 @@
 		};
 		6974E49A1D11B654005EC792 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1C2D2FAF8E1197B2C1B7AF9A /* Pods-Location Discover.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Location Discover/Info.plist";
@@ -346,6 +422,7 @@
 		};
 		6974E49B1D11B654005EC792 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FE425D3478C86F23B396E4DD /* Pods-Location Discover.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Location Discover/Info.plist";
