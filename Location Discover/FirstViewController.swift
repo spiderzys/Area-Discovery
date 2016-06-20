@@ -25,8 +25,10 @@ class FirstViewController: UIViewController,CLLocationManagerDelegate {
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     override func viewDidLoad() {
-        
+       
         super.viewDidLoad()
+        
+        
         for tabBarItem:UITabBarItem in self.tabBarController!.tabBar.items! {
             tabBarItem.enabled = false
         }
@@ -35,7 +37,7 @@ class FirstViewController: UIViewController,CLLocationManagerDelegate {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         mapView.region.span = MKCoordinateSpan.init(latitudeDelta: 4, longitudeDelta: 4)
-      //  activeLocationManagerAuthorization()
+        activeLocationManagerAuthorization()
         mapView.addAnnotation(currentLocationAnnotation)
         
         
@@ -123,17 +125,24 @@ class FirstViewController: UIViewController,CLLocationManagerDelegate {
     
     func getAddressFrom(placemark:CLPlacemark) -> [String:String?] {
         
-        let addressDic:[String:String?] = ["country":placemark.country,"state":placemark.administrativeArea,"city":placemark.locality]
+        let addressDic:[String:String?] = ["city":placemark.locality,"state":placemark.administrativeArea,"country":placemark.country]
         return addressDic
         
     }
     
     func getAddressString (addressDic:[String:String?]) -> String!{
         var locationInfo = ""
-        for entry in addressDic.values {
-            if(entry != nil){
-                locationInfo = locationInfo + entry! + " "
-            }
+        if(addressDic["city"] != nil){
+            locationInfo = locationInfo + addressDic["city"]!!+", "
+            
+        }
+        if(addressDic["state"] != nil){
+            locationInfo = locationInfo + addressDic["state"]!!+", "
+            
+        }
+        if(addressDic["country"] != nil){
+            locationInfo = locationInfo + addressDic["country"]!!
+            
         }
         return locationInfo
     }
@@ -272,8 +281,6 @@ class FirstViewController: UIViewController,CLLocationManagerDelegate {
         
         let options = MKMapSnapshotOptions()
         options.region = mapView.region
-       // options.region = CLRegion.init()
-        print(options.region)
         options.scale = UIScreen.mainScreen().scale
         options.size = mapView.frame.size;
         options.showsPointsOfInterest = true

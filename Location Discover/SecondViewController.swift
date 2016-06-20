@@ -10,20 +10,46 @@ import UIKit
 import SwiftChart
 
 let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-class SecondViewController: UIViewController   {
+var currentHour:Int?
+class SecondViewController: UIViewController , ChartDelegate   {
     
     @IBOutlet weak var forecastChart: Chart!
     
     @IBOutlet weak var backgroundImageView: UIImageView!
     
+    @IBOutlet weak var weatherImageView: UIImageView!
+    
+    @IBOutlet weak var temperatureLabel: UILabel!
+    
+    @IBOutlet weak var feelTemperatureLabel: UILabel!
+    
+    @IBOutlet weak var locationLabel: UILabel!
+    
+
+    let celsiusSymbol = "\u{00B0}C"
     let forecastRequestString = "http://api.aerisapi.com/forecasts/closest?filter=1hr&limit=12&p="
     let apiKey = "client_id=NlFypg1vJvWqzu0va8Q6f&client_secret=uPIBFJjqieCCHEaO3AIHK5XUVzroPcbKmDYATqpv"
-    var currentPeriod:NSDictionary?
+    var periods: NSArray?
+    
+    var currentIndex:Int = 1;
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateBackgroundImage), name: appDelegate.backgroundImageUpdatedNotificationName, object: nil)
+        
+        let user = NSUserDefaults.standardUserDefaults()
+        if(!user.boolForKey("second")){
+            let alertController = UIAlertController.init(title: "Try touching the chart!", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+            let cancelAction = UIAlertAction.init(title: "ok", style: UIAlertActionStyle.Cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            self.presentViewController(alertController, animated: true, completion: nil)
+            user.setObject(true, forKey: "second")
+        }
+        temperatureLabel.adjustsFontSizeToFitWidth = true
+        feelTemperatureLabel.adjustsFontSizeToFitWidth = true
+       // locationLabel.adjustsFontSizeToFitWidth = true
        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateBackgroundImage), name: appDelegate.backgroundImageUpdatedNotificationName, object: nil)
+       forecastChart.delegate = self
   }
     
     
@@ -35,28 +61,37 @@ class SecondViewController: UIViewController   {
     }
     
     @IBAction func refresh(sender: AnyObject) {
-        reloadPage()
+        reloadForecast()
     }
     
-    func reloadPage(){
-        forecastChart.removeSeries()
-        forecastChart.setNeedsDisplay()
-        let periods = loadForecast()
-        drawForecastLineChart(periods)
-        currentPeriod = periods[0] as? NSDictionary
-        showCurrentWeather()
-    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if(appDelegate.isLocationChanged){
-           reloadPage()
-           
+        if(appDelegate.isLocationChanged || currentHour != getCurrentHour()){
+           reloadForecast()
+           showCurrentWeather(periods![0] as! NSDictionary)
            //currentPeriod = periods[0] as! NSDictionary
         }
         
         
+    }
+    
+    func reloadForecast(){
+        forecastChart.removeSeries()
+        forecastChart.setNeedsDisplay()
+        periods = loadForecast()
+        drawForecastLineChart(periods!)
+        
+        
+    }
+
+    
+    func getCurrentHour() -> Int {
+        let currentDateTime = NSDate()
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components(.Hour, fromDate: currentDateTime)
+        return components.hour
     }
     
     func loadForecast()->NSArray  {
@@ -98,10 +133,7 @@ class SecondViewController: UIViewController   {
     }
     
     func drawForecastLineChart(periods:NSArray){
-        let currentDateTime = NSDate()
-        let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components(.Hour, fromDate: currentDateTime)
-        let currentHour = components.hour
+        currentHour = getCurrentHour()
 
         var linePoints: Array<(x: Float, y: Float)> = Array.init(count: periods.count, repeatedValue: (x: 0,y: 0))
         
@@ -117,7 +149,7 @@ class SecondViewController: UIViewController   {
                 maxTemperature = temperature.floatValue
             }
             
-            linePoints[index] = (x:Float(currentHour+index),y:temperature.floatValue)
+            linePoints[index] = (x:Float(currentHour!+index),y:temperature.floatValue)
             index = index + 1
             
         }
@@ -128,8 +160,9 @@ class SecondViewController: UIViewController   {
         forecastChart.minY = minTemperature - 2
         forecastChart.labelColor = (appDelegate.window?.tintColor!)!
         forecastChart.yLabelsOnRightSide = true
+        forecastChart.highlightLineColor = UIColor.redColor()
         forecastChart.yLabelsFormatter = { (labelIndex: Int, labelValue: Float) -> String in
-            return String(format:"%.1f%@C", labelValue,"\u{00B0}")
+            return String(format:"%.1f%@", labelValue, self.celsiusSymbol)
         }
         
         
@@ -152,7 +185,43 @@ class SecondViewController: UIViewController   {
 
     }
     
-    func showCurrentWeather(){
+    func showCurrentWeather(period:NSDictionary){
+        let weatherIcon = period.valueForKey("icon") as! NSString
+        weatherImageView.image = UIImage.init(named: weatherIcon as String)
+        let temperature = period.valueForKey("tempC") as! NSNumber
+        let feelTemperature = period.valueForKey("avgFeelslikeC") as! NSNumber
+        temperatureLabel.textColor = getColorFrom(temperature.floatValue)
+        feelTemperatureLabel.textColor = getColorFrom( feelTemperature.floatValue)
+        
+        temperatureLabel.text =  String(format: "%@%@", temperature,celsiusSymbol)
+        feelTemperatureLabel.text = String(format: "Feel:%@%@",feelTemperature,celsiusSymbol)
+        
+        let locationString = getAddressString(appDelegate.addressDic!)
+        locationLabel.text = locationString.characters.count>1 ? locationString : "Unknown Area"
+        
+        
+        
+    }
+    
+    
+    
+    
+    func getColorFrom(temperature:Float) -> UIColor {
+        switch temperature {
+        case 35...100:
+        return UIColor.redColor()
+        case -100...0:
+        return UIColor.blueColor()
+        case 1...17:
+        return UIColor(red: 70.0/255, green: 205.0/255, blue: 30.0/255,alpha: 1)
+        case 30...34:
+        return UIColor.orangeColor()
+        case 24...29:
+            return UIColor(red: 255.0/255, green: 190.0/255, blue: 70.0/255,alpha: 1)
+        default:
+            return (appDelegate.window?.tintColor!)!
+        }
+      
         
     }
     
@@ -164,6 +233,37 @@ class SecondViewController: UIViewController   {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    
+    func didTouchChart(chart: Chart, indexes: Array<Int?>, x: Float, left: CGFloat) {
+        if(Int(round(x)) != currentIndex){
+            currentIndex = Int(round(x))
+            showCurrentWeather(periods![currentIndex-1] as! NSDictionary)
+        }
+        
+    }
+    func didFinishTouchingChart(chart: Chart){
+        
+    }
+    
+    
+    func getAddressString (addressDic:[String:String?]) -> String!{
+        var locationInfo = ""
+        if(addressDic["city"] != nil){
+            locationInfo = locationInfo + addressDic["city"]!!+", "
+            
+        }
+        if(addressDic["state"] != nil){
+            locationInfo = locationInfo + addressDic["state"]!!+", "
+            
+        }
+        if(addressDic["country"] != nil){
+            locationInfo = locationInfo + addressDic["country"]!!
+            
+        }
+        return locationInfo
     }
 
 

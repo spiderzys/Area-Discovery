@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Location Discover/SecondViewController.swift"
-            timestampString = "488004546.145231"
+            timestampString = "488093912.077614"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
             landmarkName = "refresh(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Location Discover/SecondViewController.swift"
-            timestampString = "488008210.847927"
+            timestampString = "488093912.077614"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
             landmarkName = "drawForecastLineChart(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Location Discover/FirstViewController.swift"
-            timestampString = "488008776.899837"
+            timestampString = "488093912.077614"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
             landmarkName = "searchBar(_:textDidChange:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Location Discover/FirstViewController.swift"
-            timestampString = "488008776.899837"
+            timestampString = "488089911.916488"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "298"
-            endingLineNumber = "298"
+            startingLineNumber = "305"
+            endingLineNumber = "305"
             landmarkName = "viewWillDisappear(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Location Discover/SecondViewController.swift"
-            timestampString = "488004546.145231"
+            timestampString = "488093912.077614"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "updateBackgroundImage()"
             landmarkType = "5">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Location Discover/FirstViewController.swift"
-            timestampString = "488008776.899837"
+            timestampString = "488089911.916488"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "290"
-            endingLineNumber = "290"
+            startingLineNumber = "297"
+            endingLineNumber = "297"
             landmarkName = "viewWillDisappear(_:)"
             landmarkType = "5">
             <Locations>
@@ -138,12 +138,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Location Discover/SecondViewController.swift"
-            timestampString = "488008098.959951"
+            timestampString = "488093912.077614"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "loadForecast()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Location Discover/SecondViewController.swift"
+            timestampString = "488093912.077614"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
+            landmarkName = "getColorFrom(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
