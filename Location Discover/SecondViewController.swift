@@ -9,9 +9,8 @@
 import UIKit
 import SwiftChart
 
-let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-var currentHour:Int?
-class SecondViewController: UIViewController , ChartDelegate   {
+class SecondViewController: ViewController , ChartDelegate   {
+    static var isUpdateNeed = true
     
     @IBOutlet weak var forecastChart: Chart!
     
@@ -25,28 +24,28 @@ class SecondViewController: UIViewController , ChartDelegate   {
     
     @IBOutlet weak var locationLabel: UILabel!
     
-
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    
     let celsiusSymbol = "\u{00B0}C"
     let forecastRequestString = "http://api.aerisapi.com/forecasts/closest?filter=1hr&limit=12&p="
     let apiKey = "client_id=NlFypg1vJvWqzu0va8Q6f&client_secret=uPIBFJjqieCCHEaO3AIHK5XUVzroPcbKmDYATqpv"
     var periods: NSArray?
     
-    var currentIndex:Int = 1;
+    var currentIndex:Int = 0;
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let user = NSUserDefaults.standardUserDefaults()
         if(!user.boolForKey("second")){
-            let alertController = UIAlertController.init(title: "Try touching the chart!", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
-            let cancelAction = UIAlertAction.init(title: "ok", style: UIAlertActionStyle.Cancel, handler: nil)
-            alertController.addAction(cancelAction)
-            self.presentViewController(alertController, animated: true, completion: nil)
+            self.showAlert("try touching the chart")
             user.setObject(true, forKey: "second")
         }
+        
+        
         temperatureLabel.adjustsFontSizeToFitWidth = true
         feelTemperatureLabel.adjustsFontSizeToFitWidth = true
-       // locationLabel.adjustsFontSizeToFitWidth = true
+       
        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateBackgroundImage), name: appDelegate.backgroundImageUpdatedNotificationName, object: nil)
        forecastChart.delegate = self
@@ -55,52 +54,62 @@ class SecondViewController: UIViewController , ChartDelegate   {
     
     func updateBackgroundImage () {
         dispatch_async(dispatch_get_main_queue(), {
-            self.backgroundImageView.image = appDelegate.backgroundImage
+            self.backgroundImageView.image = self.appDelegate.backgroundImage
         })
         
     }
     
-    @IBAction func refresh(sender: AnyObject) {
-        reloadForecast()
-    }
+   
     
+    @IBAction func refresh(sender: AnyObject) {
+        
+        reloadForecast()
+        showAlert("refreshing done")
+    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if(appDelegate.isLocationChanged || currentHour != getCurrentHour()){
+        if(appDelegate.isSecondUpadateNeeded){
+           backgroundImageView.image = appDelegate.backgroundImage
+            //periods = nil
            reloadForecast()
-           showCurrentWeather(periods![0] as! NSDictionary)
+           
            //currentPeriod = periods[0] as! NSDictionary
         }
-        
+       
         
     }
     
     func reloadForecast(){
+        
+        
         forecastChart.removeSeries()
         forecastChart.setNeedsDisplay()
         periods = loadForecast()
-        drawForecastLineChart(periods!)
-        
+        if(periods != nil){
+            if(periods?.count == 12 ){
+                drawForecastLineChart()
+                print(periods![0])
+                showCurrentWeather(periods![0] as! NSDictionary)
+            }
+        }
         
     }
 
     
-    func getCurrentHour() -> Int {
-        let currentDateTime = NSDate()
-        let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components(.Hour, fromDate: currentDateTime)
-        return components.hour
-    }
     
-    func loadForecast()->NSArray  {
+    
+    func loadForecast()->NSArray?  {
         
         let currentLocationCoordinateString = String(appDelegate.addressCoordinate!.latitude) + ","+String(appDelegate.addressCoordinate!.longitude)
         let currentLocationForecastRequestString = forecastRequestString + currentLocationCoordinateString + "&" + apiKey
-        print(currentLocationForecastRequestString)
+       // print(currentLocationForecastRequestString)
         
         let forecastData = NSData.init(contentsOfURL: NSURL.init(string: currentLocationForecastRequestString)!)
+        
+        
+        
         if forecastData != nil {
             
             do{
@@ -110,7 +119,7 @@ class SecondViewController: UIViewController , ChartDelegate   {
                 if(success){
                     
                     let response = dict.valueForKey("response") as! NSArray
-                    return response[0].valueForKey("periods") as! NSArray
+                    return response[0].valueForKey("periods") as? NSArray
                     
           
                 }
@@ -126,16 +135,16 @@ class SecondViewController: UIViewController , ChartDelegate   {
         }
             
         else {
-            print("no data")
+            self.showAlert("no network")
             
         }
-        return NSArray.init(object: currentLocationCoordinateString)
+        return nil
     }
     
-    func drawForecastLineChart(periods:NSArray){
-        currentHour = getCurrentHour()
+    func drawForecastLineChart(){
+       // currentHour = getCurrentHour()
 
-        var linePoints: Array<(x: Float, y: Float)> = Array.init(count: periods.count, repeatedValue: (x: 0,y: 0))
+        var linePoints: Array<(x: Float, y: Float)> = Array.init(count: periods!.count, repeatedValue: (x: 0,y: 0))
         
         var index = 0
         var maxTemperature:Float = -99
@@ -149,7 +158,7 @@ class SecondViewController: UIViewController , ChartDelegate   {
                 maxTemperature = temperature.floatValue
             }
             
-            linePoints[index] = (x:Float(currentHour!+index),y:temperature.floatValue)
+            linePoints[index] = (x:Float(index),y:temperature.floatValue)
             index = index + 1
             
         }
@@ -196,7 +205,7 @@ class SecondViewController: UIViewController , ChartDelegate   {
         temperatureLabel.text =  String(format: "%@%@", temperature,celsiusSymbol)
         feelTemperatureLabel.text = String(format: "Feel:%@%@",feelTemperature,celsiusSymbol)
         
-        let locationString = getAddressString(appDelegate.addressDic!)
+        let locationString = super.getAddressString(appDelegate.addressDic!)
         locationLabel.text = locationString.characters.count>1 ? locationString : "Unknown Area"
         
         
@@ -225,22 +234,27 @@ class SecondViewController: UIViewController , ChartDelegate   {
         
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        appDelegate.isLocationChanged = false
-    }
-
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+     //   currentHour = currentHour! + 1
+        appDelegate.isSecondUpadateNeeded = false
+    }
+        
+    
     
     
     
     func didTouchChart(chart: Chart, indexes: Array<Int?>, x: Float, left: CGFloat) {
         if(Int(round(x)) != currentIndex){
             currentIndex = Int(round(x))
-            showCurrentWeather(periods![currentIndex-1] as! NSDictionary)
+            print(currentIndex)
+            showCurrentWeather(periods![currentIndex] as! NSDictionary)
         }
         
     }
@@ -249,23 +263,7 @@ class SecondViewController: UIViewController , ChartDelegate   {
     }
     
     
-    func getAddressString (addressDic:[String:String?]) -> String!{
-        var locationInfo = ""
-        if(addressDic["city"] != nil){
-            locationInfo = locationInfo + addressDic["city"]!!+", "
-            
-        }
-        if(addressDic["state"] != nil){
-            locationInfo = locationInfo + addressDic["state"]!!+", "
-            
-        }
-        if(addressDic["country"] != nil){
-            locationInfo = locationInfo + addressDic["country"]!!
-            
-        }
-        return locationInfo
-    }
-
+    
 
 }
 

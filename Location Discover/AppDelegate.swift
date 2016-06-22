@@ -9,14 +9,17 @@
 import UIKit
 import MapKit
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate  {
     
     var window: UIWindow?
     var addressDic: [String:String?]?
     var addressCoordinate: CLLocationCoordinate2D?
-    var isLocationChanged = false
+    var isSecondUpadateNeeded = true
+    var isThirdUpadateNeeded = true
+    var isFourthUpdateNeeded = true
     var backgroundImage:UIImage?
     let backgroundImageUpdatedNotificationName = "backgroundImageUpdated"
+    
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.

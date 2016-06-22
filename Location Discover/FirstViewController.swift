@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class FirstViewController: UIViewController,CLLocationManagerDelegate {
+class FirstViewController: ViewController,CLLocationManagerDelegate {
     
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     @IBOutlet weak var mapView: MKMapView!
@@ -23,12 +23,13 @@ class FirstViewController: UIViewController,CLLocationManagerDelegate {
     var searchResultPlacemarks:Array<MKMapItem>?
     let searchResultTableViewCellIdentifier = "map"
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    var isLocationChanged = true
     
     override func viewDidLoad() {
        
         super.viewDidLoad()
         
-        
+        locationSearchBar.tintColor = UIColor.blueColor()
         for tabBarItem:UITabBarItem in self.tabBarController!.tabBar.items! {
             tabBarItem.enabled = false
         }
@@ -37,6 +38,7 @@ class FirstViewController: UIViewController,CLLocationManagerDelegate {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         mapView.region.span = MKCoordinateSpan.init(latitudeDelta: 4, longitudeDelta: 4)
+        
         activeLocationManagerAuthorization()
         mapView.addAnnotation(currentLocationAnnotation)
         
@@ -54,8 +56,6 @@ class FirstViewController: UIViewController,CLLocationManagerDelegate {
         if(CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedAlways || CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse){
             
             locationManager.startUpdatingLocation();
-            
-            
         }
             
         else{
@@ -80,6 +80,7 @@ class FirstViewController: UIViewController,CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let currentLocation = locations.last
+       
         mapView.setCenterCoordinate((currentLocation?.coordinate)!, animated: true)
         showLocation((currentLocation?.coordinate)!)
         manager.stopUpdatingLocation()
@@ -90,12 +91,13 @@ class FirstViewController: UIViewController,CLLocationManagerDelegate {
         
         
     }
-    
-    
+   
     
     func showLocation(coordinate:CLLocationCoordinate2D){
         appDelegate.addressCoordinate = coordinate
-        appDelegate.isLocationChanged = true
+        isLocationChanged = true
+        appDelegate.isSecondUpadateNeeded = true
+        appDelegate.isThirdUpadateNeeded = true
         let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         //print(location)
         geoCoder.reverseGeocodeLocation(location, completionHandler: { placemark,error in
@@ -123,29 +125,13 @@ class FirstViewController: UIViewController,CLLocationManagerDelegate {
        
     }
     
-    func getAddressFrom(placemark:CLPlacemark) -> [String:String?] {
+    func getAddressFrom(placemark:CLPlacemark) -> [String:String?]! {
         
         let addressDic:[String:String?] = ["city":placemark.locality,"state":placemark.administrativeArea,"country":placemark.country]
         return addressDic
         
     }
     
-    func getAddressString (addressDic:[String:String?]) -> String!{
-        var locationInfo = ""
-        if(addressDic["city"] != nil){
-            locationInfo = locationInfo + addressDic["city"]!!+", "
-            
-        }
-        if(addressDic["state"] != nil){
-            locationInfo = locationInfo + addressDic["state"]!!+", "
-            
-        }
-        if(addressDic["country"] != nil){
-            locationInfo = locationInfo + addressDic["country"]!!
-            
-        }
-        return locationInfo
-    }
     
     @IBAction func coordinateMove(sender: AnyObject) {
         locationSearchBar.endEditing(true)
@@ -157,14 +143,7 @@ class FirstViewController: UIViewController,CLLocationManagerDelegate {
         mapView.region.center = touchMapCoordinate
         showLocation(touchMapCoordinate)
     }
-    /*
-     func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-     mapView.userInteractionEnabled = false
-     }
-      */
-     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-     
-     }
+    
     
     
     
@@ -172,7 +151,7 @@ class FirstViewController: UIViewController,CLLocationManagerDelegate {
         
         tapGestureRecognizer.enabled = false
         locationManager.startUpdatingLocation();
-         print(mapView.region)
+        
     }
     
     func searchBarTextDidEndEditing( searchBar: UISearchBar){
@@ -180,23 +159,25 @@ class FirstViewController: UIViewController,CLLocationManagerDelegate {
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar){
+        
         if(searchBar.text != nil){
             geoCoder.geocodeAddressString(searchBar.text!, completionHandler: {(placemarks:Array<CLPlacemark>?, error:NSError?) in
                 
                 //   self.searchResultPlacemarks = placemarks
                 if (error != nil){
-                    let alertController = UIAlertController.init(title: "No results return", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
-                    let cancelAction = UIAlertAction.init(title: "ok", style: UIAlertActionStyle.Cancel, handler: nil)
-                    alertController.addAction(cancelAction)
-                    self.presentViewController(alertController, animated: true, completion: nil)
+                    super.showAlert("No matching location returned")
                 }
                 else{
                     self.showSearchResultFrom(placemarks!.first!)
                 }
             })
         }
+        searchBar.endEditing(true)
     }
     
+    func searchBarCancelButtonClicked(searchBar: UISearchBar){
+        searchBar.endEditing(true)
+    }
     
     func searchBar(searchBar: UISearchBar,textDidChange searchText: String){
         let localSearchRequest = MKLocalSearchRequest()
@@ -208,7 +189,7 @@ class FirstViewController: UIViewController,CLLocationManagerDelegate {
             self.searchResultPlacemarks = nil
             
             if localSearchResponse != nil{
-                print(localSearchResponse)
+               
                 self.searchResultPlacemarks = localSearchResponse?.mapItems
             }
             
@@ -263,18 +244,20 @@ class FirstViewController: UIViewController,CLLocationManagerDelegate {
             
         }
         let placemark = searchResultPlacemarks![indexPath.row].placemark
-        locationCell?.textLabel?.text = getAddressString(getAddressFrom(placemark))
+        locationCell?.textLabel?.text = super.getAddressString(getAddressFrom(placemark))
         
         return locationCell!
         
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
+        locationSearchBar.endEditing(true)
         showSearchResultFrom(searchResultPlacemarks![indexPath.row].placemark)
         
-        
     }
-    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
     
     
     override func viewWillDisappear(animated: Bool) {
@@ -288,24 +271,24 @@ class FirstViewController: UIViewController,CLLocationManagerDelegate {
         let snapShotter = MKMapSnapshotter.init(options: options)
         
         //  let semaphore = dispatch_semaphore_create(0);
-       
-        if(appDelegate.isLocationChanged){
-            
+        
+        if(isLocationChanged){
+            self.isLocationChanged = false
+
             snapShotter.startWithQueue(dispatch_get_main_queue(), completionHandler: {(snapshot:MKMapSnapshot?, error:NSError?)  in
                 if(error == nil){
                     self.appDelegate.backgroundImage = snapshot?.image
                     NSNotificationCenter.defaultCenter().postNotificationName(self.appDelegate.backgroundImageUpdatedNotificationName, object: nil)
                     
-                    
-                    
                 }
-                
-                //  dispatch_semaphore_signal(semaphore);
                 
             })
         }
         super.viewWillDisappear(animated)
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidAppear(animated)
+    }
 }
 
