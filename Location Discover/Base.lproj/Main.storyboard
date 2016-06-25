@@ -25,7 +25,7 @@
                                 <gestureRecognizers/>
                                 <connections>
                                     <outlet property="delegate" destination="9pv-A4-QxB" id="QlW-tQ-3h8"/>
-                                    <outletCollection property="gestureRecognizers" destination="r9y-L2-oER" appends="YES" id="xRk-6p-Mah"/>
+                                    <outletCollection property="gestureRecognizers" destination="LOS-TL-0rl" appends="YES" id="uSI-ML-iQp"/>
                                 </connections>
                             </mapView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7j-ci-vM4">
@@ -90,17 +90,18 @@
                     <connections>
                         <outlet property="locationLabel" destination="Z7j-ci-vM4" id="b2W-2x-tUD"/>
                         <outlet property="locationSearchBar" destination="UTG-If-5rh" id="EiK-4S-ZAB"/>
+                        <outlet property="longPressGesture" destination="LOS-TL-0rl" id="juh-vZ-xfn"/>
                         <outlet property="mapView" destination="fb6-ga-nql" id="blR-XX-aI7"/>
                         <outlet property="searchResultTableView" destination="xHt-hG-a8t" id="r7k-t3-NHE"/>
-                        <outlet property="tapGestureRecognizer" destination="r9y-L2-oER" id="kaO-6s-vak"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer enabled="NO" id="r9y-L2-oER">
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="LOS-TL-0rl">
                     <connections>
-                        <action selector="coordinateMove:" destination="9pv-A4-QxB" id="Y6f-g2-lrt"/>
+                        <action selector="coordinateMove:" destination="9pv-A4-QxB" id="caj-mx-VLm"/>
+                        <outlet property="delegate" destination="9pv-A4-QxB" id="cZe-Ef-vOQ"/>
                     </connections>
-                </tapGestureRecognizer>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="750" y="-320"/>
         </scene>
@@ -234,24 +235,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MkM-9F-yke">
-                                <rect key="frame" x="20" y="58" width="560" height="542"/>
+                                <rect key="frame" x="0.0" y="58" width="600" height="493"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="X1v-uK-IYw">
                                     <size key="itemSize" width="380" height="161"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="flickr" id="0Ly-yq-G8s" customClass="FlickrCollectionViewCell" customModule="Location_Discover" customModuleProvider="target">
-                                        <rect key="frame" x="90" y="0.0" width="380" height="161"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="380" height="161"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                </cells>
+                                <cells/>
                                 <connections>
                                     <outlet property="dataSource" destination="Qw2-aH-hqc" id="Gtg-XS-gAb"/>
                                     <outlet property="delegate" destination="Qw2-aH-hqc" id="24B-T3-l6o"/>
@@ -291,12 +282,12 @@
                             <constraint firstItem="d4b-4N-Vch" firstAttribute="top" secondItem="MkM-9F-yke" secondAttribute="bottom" id="8RD-Zh-ffB"/>
                             <constraint firstItem="G6Y-8g-DcW" firstAttribute="top" secondItem="GJX-n5-Gxi" secondAttribute="topMargin" constant="20" id="B3m-g3-4gV"/>
                             <constraint firstItem="pRK-sC-o5u" firstAttribute="height" secondItem="GJX-n5-Gxi" secondAttribute="height" multiplier="0.055" id="Bn7-qU-IqO"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="MkM-9F-yke" secondAttribute="trailing" id="JmE-Pi-bzj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="MkM-9F-yke" secondAttribute="trailing" constant="-20" id="JmE-Pi-bzj"/>
                             <constraint firstItem="pRK-sC-o5u" firstAttribute="leading" secondItem="GJX-n5-Gxi" secondAttribute="leadingMargin" id="R8E-Nb-gl7"/>
                             <constraint firstItem="G6Y-8g-DcW" firstAttribute="leading" secondItem="pRK-sC-o5u" secondAttribute="trailing" id="SOE-6H-y42"/>
                             <constraint firstItem="G6Y-8g-DcW" firstAttribute="centerY" secondItem="pRK-sC-o5u" secondAttribute="centerY" id="k4p-ty-HLX"/>
                             <constraint firstItem="MkM-9F-yke" firstAttribute="top" secondItem="G6Y-8g-DcW" secondAttribute="bottom" constant="5" id="lhW-sG-aPo"/>
-                            <constraint firstItem="MkM-9F-yke" firstAttribute="leading" secondItem="GJX-n5-Gxi" secondAttribute="leadingMargin" id="pm4-Pz-IpU"/>
+                            <constraint firstItem="MkM-9F-yke" firstAttribute="leading" secondItem="GJX-n5-Gxi" secondAttribute="leadingMargin" constant="-20" id="pm4-Pz-IpU"/>
                             <constraint firstItem="G6Y-8g-DcW" firstAttribute="height" secondItem="pRK-sC-o5u" secondAttribute="height" id="uyL-pQ-EJe"/>
                         </constraints>
                     </view>
@@ -325,6 +316,7 @@
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="9lC-a7-lPN" kind="relationship" relationship="viewControllers" id="nGS-LD-U53"/>
+                        <segue destination="Qw2-aH-hqc" kind="relationship" relationship="viewControllers" id="xc5-44-eG3"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>

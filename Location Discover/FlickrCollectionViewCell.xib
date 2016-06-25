@@ -17,17 +17,17 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="epw-fG-T4B">
                         <rect key="frame" x="0.0" y="0.0" width="211" height="188"/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="like_filled" translatesAutoresizingMaskIntoConstraints="NO" id="Don-QL-Sqj">
-                        <rect key="frame" x="166" y="5" width="20" height="20"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hearts" translatesAutoresizingMaskIntoConstraints="NO" id="Don-QL-Sqj">
+                        <rect key="frame" x="171" y="5" width="20" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="20" id="b9E-No-QKV"/>
                             <constraint firstAttribute="width" secondItem="Don-QL-Sqj" secondAttribute="height" id="vl0-9h-kiG"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vuH-uf-JwU">
-                        <rect key="frame" x="186" y="0.0" width="25" height="30"/>
+                        <rect key="frame" x="191" y="0.0" width="20" height="30"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="25" id="FWP-jZ-Gul"/>
+                            <constraint firstAttribute="width" constant="20" id="FWP-jZ-Gul"/>
                             <constraint firstAttribute="height" constant="30" id="dQ0-xD-RKf"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -56,6 +56,6 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="like_filled" width="25" height="25"/>
+        <image name="hearts" width="100" height="100"/>
     </resources>
 </document>

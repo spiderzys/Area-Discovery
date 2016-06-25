@@ -75,9 +75,7 @@ class SecondViewController: ViewController , ChartDelegate   {
             //periods = nil
            reloadForecast()
            
-           //currentPeriod = periods[0] as! NSDictionary
         }
-       
         
     }
     
@@ -90,7 +88,7 @@ class SecondViewController: ViewController , ChartDelegate   {
         if(periods != nil){
             if(periods?.count == 12 ){
                 drawForecastLineChart()
-                print(periods![0])
+            //    print(periods![0])
                 showCurrentWeather(periods![0] as! NSDictionary)
             }
         }
@@ -253,7 +251,6 @@ class SecondViewController: ViewController , ChartDelegate   {
     func didTouchChart(chart: Chart, indexes: Array<Int?>, x: Float, left: CGFloat) {
         if(Int(round(x)) != currentIndex){
             currentIndex = Int(round(x))
-            print(currentIndex)
             showCurrentWeather(periods![currentIndex] as! NSDictionary)
         }
         

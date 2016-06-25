@@ -11,7 +11,7 @@ import MapKit
 
 class FirstViewController: ViewController,CLLocationManagerDelegate {
     
-    @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
+    @IBOutlet var longPressGesture: UILongPressGestureRecognizer!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var searchResultTableView: UITableView!
@@ -85,10 +85,7 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
         showLocation((currentLocation?.coordinate)!)
         manager.stopUpdatingLocation()
        
-
-        tapGestureRecognizer.enabled = true
-        
-        
+        longPressGesture.enabled = true
         
     }
    
@@ -109,10 +106,10 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
                 
                 let addressString = self.getAddressString(addressDic)
                 if(addressString.characters.count > 1){
-                    self.locationLabel.text = "Tap to change: \n" + self.getAddressString(addressDic)
+                    self.locationLabel.text = "Long press map to change: \n" + self.getAddressString(addressDic)
                 }
                 else {
-                    self.locationLabel.text = "Tap to change: \n" + "unknown area"
+                    self.locationLabel.text = "Long press map to change: \n" + "unknown area"
                 }
             }
             else{
@@ -135,21 +132,19 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
     
     @IBAction func coordinateMove(sender: AnyObject) {
         locationSearchBar.endEditing(true)
-        let touchPoint = tapGestureRecognizer.locationOfTouch(0, inView: mapView)
+        let touchPoint = longPressGesture.locationOfTouch(0, inView: mapView)
         
         let touchMapCoordinate = mapView.convertPoint(touchPoint, toCoordinateFromView: mapView)
         currentLocationAnnotation.coordinate = touchMapCoordinate
-        
+        longPressGesture.enabled = false
         mapView.region.center = touchMapCoordinate
         showLocation(touchMapCoordinate)
+        longPressGesture.enabled = true
     }
-    
-    
-    
     
     @IBAction func returnToUserLocation(sender: AnyObject) {
         
-        tapGestureRecognizer.enabled = false
+        longPressGesture.enabled = false
         locationManager.startUpdatingLocation();
         
     }

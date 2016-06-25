@@ -51,7 +51,7 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
     
     func loadTweets() {
         
-        
+         //  accessToken = "????"
            let headers = ["Authorization": "Bearer \(accessToken!)"]
            /* let params: [String : AnyObject] = [
                // "screen_name" : screenName,
@@ -62,22 +62,38 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
         
             Alamofire.request(.GET, self.baseUrlString + "search/tweets.json?q=&geocode="+String(appDelegate.addressCoordinate!.latitude)+","+String(appDelegate.addressCoordinate!.longitude)+","+String(radius)+"km&result_type=recent", headers: headers, parameters: nil)
                 .responseJSON { response in
-                
+            //    print(response)
                     
                     if let result = response.result.value {
+                        
+                        
+                        
                         self.tweets = result.valueForKey("statuses") as? [NSDictionary]
                         if(self.tweets != nil){
                             
-                           
+                            let user = NSUserDefaults.standardUserDefaults()
+                            user.setObject(self.accessToken, forKey: "token")
                             self.tweetsTableView.reloadData()
                             self.tweetsTableView.scrollEnabled = true
                        //     print(t.valueForKey("favorite_count"))
                         }
-                        
-                        
+                        else {
+                            let errors = result.valueForKey("errors") as! NSArray
+                            let error = errors[0]
+                            let code = error.valueForKey("code") as! NSNumber
+                            if(code.intValue == 89){
+                               self.accessToken = nil
+                                let user = NSUserDefaults.standardUserDefaults()
+                                user.setObject(self.accessToken, forKey: "token")
+                               self.reloadTweets()
+                            }
+                        }
                     }
+                        
+                        
+                    
                     else {
-                        self.showAlert("no network")
+                        self.showAlert("no network!")
                     }
             }
         
@@ -99,6 +115,8 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
        // tweetsTableView.estimatedRowHeight = 50
         tweetsTableView.rowHeight = UITableViewAutomaticDimension
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateBackgroundImage), name: appDelegate.backgroundImageUpdatedNotificationName, object: nil)
+        let user = NSUserDefaults.standardUserDefaults()
+        accessToken = user.objectForKey("token") as? String
         // Do any additional setup after loading the view.
     }
     
