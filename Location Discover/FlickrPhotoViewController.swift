@@ -26,7 +26,7 @@ class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
     let baseUrlString =  "https://api.flickr.com/services/rest/?"
     let infoMethodString = "method=flickr.photos.getInfo"
     let commentMethodString = "method=flickr.photos.comments.getList"
-    let apiKey = "api_key=38f54e0aad5942419017de0ae7944197"
+    let apiKey = // the same as FourthViewController
     var photoTitle:String
     var photoId:String
   //  var flickrInfoArray = [[String:String]]()

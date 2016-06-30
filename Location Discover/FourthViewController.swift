@@ -22,7 +22,7 @@ class FourthViewController: UIViewController, NSXMLParserDelegate {
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     let baseUrlString = "https://api.flickr.com/services/rest/?"
-    let apiKey = "api_key=38f54e0aad5942419017de0ae7944197"
+    let apiKey = // your own key
     let searchMethodString = "method=flickr.photos.search"
     let favoriteMethod =  "method=flickr.photos.getFavorites"
     let formatString = "format=rest"
