@@ -111,7 +111,7 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        tweetsTableView.registerNib(UINib.init(nibName: "tweetsTableViewCell", bundle: nil), forCellReuseIdentifier: tweetsTableViewReuseIdentifier)
+        tweetsTableView.registerNib(UINib.init(nibName: "TweetsTableViewCell", bundle: nil), forCellReuseIdentifier: tweetsTableViewReuseIdentifier)
        // tweetsTableView.estimatedRowHeight = 50
         tweetsTableView.rowHeight = UITableViewAutomaticDimension
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateBackgroundImage), name: appDelegate.backgroundImageUpdatedNotificationName, object: nil)
@@ -200,10 +200,10 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        var tweetCell = tableView.dequeueReusableCellWithIdentifier(tweetsTableViewReuseIdentifier) as? tweetsTableViewCell
+        var tweetCell = tableView.dequeueReusableCellWithIdentifier(tweetsTableViewReuseIdentifier) as? TweetsTableViewCell
         if(tweetCell == nil){
             
-             tweetCell = tweetsTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: tweetsTableViewReuseIdentifier)
+             tweetCell = TweetsTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: tweetsTableViewReuseIdentifier)
         }
         tweetCell!.backgroundColor = UIColor.clearColor()
         tweetCell!.userImageView.image = nil
@@ -226,7 +226,7 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
                 let task = NSURLSession.sharedSession().dataTaskWithURL(profileImageUrl, completionHandler: {(data, response, error) in
                     if (data != nil){
                         dispatch_async(dispatch_get_main_queue(), {
-                            let updateCell = tableView.cellForRowAtIndexPath(indexPath) as? tweetsTableViewCell
+                            let updateCell = tableView.cellForRowAtIndexPath(indexPath) as? TweetsTableViewCell
                             if(updateCell != nil) {
                             updateCell!.userImageView.image = UIImage.init(data: data!)
                             }

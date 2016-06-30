@@ -14,10 +14,10 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="211" height="188"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="epw-fG-T4B">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="epw-fG-T4B">
                         <rect key="frame" x="0.0" y="0.0" width="211" height="188"/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hearts" translatesAutoresizingMaskIntoConstraints="NO" id="Don-QL-Sqj">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="like_filled" translatesAutoresizingMaskIntoConstraints="NO" id="Don-QL-Sqj">
                         <rect key="frame" x="171" y="5" width="20" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="20" id="b9E-No-QKV"/>
@@ -56,6 +56,6 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="hearts" width="100" height="100"/>
+        <image name="like_filled" width="25" height="25"/>
     </resources>
 </document>

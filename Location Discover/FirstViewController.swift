@@ -41,7 +41,7 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
         
         activeLocationManagerAuthorization()
         mapView.addAnnotation(currentLocationAnnotation)
-        
+       
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -54,12 +54,18 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
     func activeLocationManagerAuthorization() {
         
         if(CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedAlways || CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse){
-            
+            let user = NSUserDefaults.standardUserDefaults()
+            if(!user.boolForKey("first")){
+                self.showAlert("long press on the map to change the location")
+                user.setObject(true, forKey: "first")
+            }
+
             locationManager.startUpdatingLocation();
         }
             
         else{
             locationManager.requestWhenInUseAuthorization()
+            
         }
         
         
@@ -70,7 +76,12 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
                          didChangeAuthorizationStatus status: CLAuthorizationStatus){
         
         if(status == CLAuthorizationStatus.AuthorizedAlways || status == CLAuthorizationStatus.AuthorizedWhenInUse){
-            
+            let user = NSUserDefaults.standardUserDefaults()
+            if(!user.boolForKey("first")){
+                self.showAlert("long press on the map to change the location")
+                user.setObject(true, forKey: "first")
+            }
+
             locationManager.startUpdatingLocation();
             // next step
             
@@ -95,6 +106,7 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
         isLocationChanged = true
         appDelegate.isSecondUpadateNeeded = true
         appDelegate.isThirdUpadateNeeded = true
+        appDelegate.isFourthUpdateNeeded = true
         let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         //print(location)
         geoCoder.reverseGeocodeLocation(location, completionHandler: { placemark,error in
@@ -106,10 +118,10 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
                 
                 let addressString = self.getAddressString(addressDic)
                 if(addressString.characters.count > 1){
-                    self.locationLabel.text = "Long press map to change: \n" + self.getAddressString(addressDic)
+                    self.locationLabel.text =   self.getAddressString(addressDic)
                 }
                 else {
-                    self.locationLabel.text = "Long press map to change: \n" + "unknown area"
+                    self.locationLabel.text = "unknown area"
                 }
             }
             else{
@@ -282,8 +294,6 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
         super.viewWillDisappear(animated)
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidAppear(animated)
-    }
+    
 }
 

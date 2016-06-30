@@ -22,8 +22,8 @@
 		6974E48A1D11B654005EC792 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6974E4881D11B654005EC792 /* LaunchScreen.storyboard */; };
 		6974E4951D11B654005EC792 /* Location_DiscoverUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6974E4941D11B654005EC792 /* Location_DiscoverUITests.swift */; };
 		6974E4A01D11B8D0005EC792 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6974E49F1D11B8D0005EC792 /* MapKit.framework */; };
-		6997097D1D18BE300050C8EE /* tweetsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6997097B1D18BE300050C8EE /* tweetsTableViewCell.swift */; };
-		6997097E1D18BE300050C8EE /* tweetsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6997097C1D18BE300050C8EE /* tweetsTableViewCell.xib */; };
+		6997097D1D18BE300050C8EE /* TweetsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6997097B1D18BE300050C8EE /* TweetsTableViewCell.swift */; };
+		6997097E1D18BE300050C8EE /* TweetsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6997097C1D18BE300050C8EE /* TweetsTableViewCell.xib */; };
 		EF5B82AFCD1E9E856FA7DB4F /* Pods_Location_Discover.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304AE0E1072725814A824F5F /* Pods_Location_Discover.framework */; };
 /* End PBXBuildFile section */
 
@@ -59,8 +59,8 @@
 		6974E4941D11B654005EC792 /* Location_DiscoverUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location_DiscoverUITests.swift; sourceTree = "<group>"; };
 		6974E4961D11B654005EC792 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6974E49F1D11B8D0005EC792 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		6997097B1D18BE300050C8EE /* tweetsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tweetsTableViewCell.swift; sourceTree = "<group>"; };
-		6997097C1D18BE300050C8EE /* tweetsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = tweetsTableViewCell.xib; sourceTree = "<group>"; };
+		6997097B1D18BE300050C8EE /* TweetsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetsTableViewCell.swift; sourceTree = "<group>"; };
+		6997097C1D18BE300050C8EE /* TweetsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetsTableViewCell.xib; sourceTree = "<group>"; };
 		FE425D3478C86F23B396E4DD /* Pods-Location Discover.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Location Discover.release.xcconfig"; path = "Pods/Target Support Files/Pods-Location Discover/Pods-Location Discover.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,8 +121,8 @@
 				6974E47F1D11B654005EC792 /* FirstViewController.swift */,
 				6974E4811D11B654005EC792 /* SecondViewController.swift */,
 				691A26021D18254A009104FC /* ThirdViewController.swift */,
-				6997097B1D18BE300050C8EE /* tweetsTableViewCell.swift */,
-				6997097C1D18BE300050C8EE /* tweetsTableViewCell.xib */,
+				6997097B1D18BE300050C8EE /* TweetsTableViewCell.swift */,
+				6997097C1D18BE300050C8EE /* TweetsTableViewCell.xib */,
 				690158A51D199F13003818E3 /* FourthViewController.swift */,
 				690158A71D19AF51003818E3 /* FlickrCollectionViewCell.swift */,
 				690158A81D19AF51003818E3 /* FlickrCollectionViewCell.xib */,
@@ -243,7 +243,7 @@
 				693265E71D1E3D7E006A5EA8 /* FlickrPhotoViewController.xib in Resources */,
 				690158AA1D19AF51003818E3 /* FlickrCollectionViewCell.xib in Resources */,
 				6974E4851D11B654005EC792 /* Main.storyboard in Resources */,
-				6997097E1D18BE300050C8EE /* tweetsTableViewCell.xib in Resources */,
+				6997097E1D18BE300050C8EE /* TweetsTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,7 +315,7 @@
 				690158A61D199F13003818E3 /* FourthViewController.swift in Sources */,
 				691A26031D18254A009104FC /* ThirdViewController.swift in Sources */,
 				6974E4801D11B654005EC792 /* FirstViewController.swift in Sources */,
-				6997097D1D18BE300050C8EE /* tweetsTableViewCell.swift in Sources */,
+				6997097D1D18BE300050C8EE /* TweetsTableViewCell.swift in Sources */,
 				693265E61D1E3D7E006A5EA8 /* FlickrPhotoViewController.swift in Sources */,
 				690158A91D19AF51003818E3 /* FlickrCollectionViewCell.swift in Sources */,
 			);

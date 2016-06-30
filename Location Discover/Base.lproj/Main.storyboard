@@ -28,7 +28,7 @@
                                     <outletCollection property="gestureRecognizers" destination="LOS-TL-0rl" appends="YES" id="uSI-ML-iQp"/>
                                 </connections>
                             </mapView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7j-ci-vM4">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7j-ci-vM4">
                                 <rect key="frame" x="20" y="491" width="515" height="60"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
                                 <color key="textColor" red="0.73715244160000004" green="0.60793635859999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -234,8 +234,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="O1U-It-rVF">
+                                <rect key="frame" x="0.0" y="53" width="600" height="498"/>
+                            </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MkM-9F-yke">
                                 <rect key="frame" x="0.0" y="58" width="600" height="493"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="X1v-uK-IYw">
                                     <size key="itemSize" width="380" height="161"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -275,25 +279,44 @@
                                     <action selector="segmentChanged:" destination="Qw2-aH-hqc" eventType="valueChanged" id="WQ3-ai-8Ek"/>
                                 </connections>
                             </segmentedControl>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No photos in this area" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vH0-DD-MDx">
+                                <rect key="frame" x="0.0" y="270" width="600" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="Hsy-m9-iBr"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <color key="textColor" red="0.58039215690000001" green="0.4823529412" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="G6Y-8g-DcW" secondAttribute="trailing" constant="1" id="68K-rE-4TF"/>
+                            <constraint firstItem="vH0-DD-MDx" firstAttribute="leading" secondItem="GJX-n5-Gxi" secondAttribute="leadingMargin" constant="-20" id="82v-fB-Rsv"/>
                             <constraint firstItem="d4b-4N-Vch" firstAttribute="top" secondItem="MkM-9F-yke" secondAttribute="bottom" id="8RD-Zh-ffB"/>
                             <constraint firstItem="G6Y-8g-DcW" firstAttribute="top" secondItem="GJX-n5-Gxi" secondAttribute="topMargin" constant="20" id="B3m-g3-4gV"/>
                             <constraint firstItem="pRK-sC-o5u" firstAttribute="height" secondItem="GJX-n5-Gxi" secondAttribute="height" multiplier="0.055" id="Bn7-qU-IqO"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="vH0-DD-MDx" secondAttribute="trailing" constant="-20" id="DlT-fc-caj"/>
                             <constraint firstAttribute="trailingMargin" secondItem="MkM-9F-yke" secondAttribute="trailing" constant="-20" id="JmE-Pi-bzj"/>
+                            <constraint firstItem="O1U-It-rVF" firstAttribute="top" secondItem="G6Y-8g-DcW" secondAttribute="bottom" id="PXC-KA-hsh"/>
                             <constraint firstItem="pRK-sC-o5u" firstAttribute="leading" secondItem="GJX-n5-Gxi" secondAttribute="leadingMargin" id="R8E-Nb-gl7"/>
                             <constraint firstItem="G6Y-8g-DcW" firstAttribute="leading" secondItem="pRK-sC-o5u" secondAttribute="trailing" id="SOE-6H-y42"/>
+                            <constraint firstItem="d4b-4N-Vch" firstAttribute="top" secondItem="O1U-It-rVF" secondAttribute="bottom" id="c2m-UM-g0C"/>
+                            <constraint firstItem="O1U-It-rVF" firstAttribute="leading" secondItem="GJX-n5-Gxi" secondAttribute="leadingMargin" constant="-20" id="fJb-YI-5DC"/>
+                            <constraint firstItem="vH0-DD-MDx" firstAttribute="centerX" secondItem="GJX-n5-Gxi" secondAttribute="centerX" id="gT4-Ei-dDS"/>
+                            <constraint firstItem="vH0-DD-MDx" firstAttribute="centerY" secondItem="GJX-n5-Gxi" secondAttribute="centerY" id="h2W-JP-f72"/>
                             <constraint firstItem="G6Y-8g-DcW" firstAttribute="centerY" secondItem="pRK-sC-o5u" secondAttribute="centerY" id="k4p-ty-HLX"/>
                             <constraint firstItem="MkM-9F-yke" firstAttribute="top" secondItem="G6Y-8g-DcW" secondAttribute="bottom" constant="5" id="lhW-sG-aPo"/>
                             <constraint firstItem="MkM-9F-yke" firstAttribute="leading" secondItem="GJX-n5-Gxi" secondAttribute="leadingMargin" constant="-20" id="pm4-Pz-IpU"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="O1U-It-rVF" secondAttribute="trailing" constant="-20" id="qT0-4q-PUN"/>
                             <constraint firstItem="G6Y-8g-DcW" firstAttribute="height" secondItem="pRK-sC-o5u" secondAttribute="height" id="uyL-pQ-EJe"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Flickr" image="compact_camera" selectedImage="compact_camera_filled" id="dSq-J1-0M0"/>
                     <connections>
+                        <outlet property="backgroundImageView" destination="O1U-It-rVF" id="88t-Sn-muK"/>
                         <outlet property="flickrCollectionView" destination="MkM-9F-yke" id="Rmh-RF-YfS"/>
+                        <outlet property="noPhotosLabel" destination="vH0-DD-MDx" id="e3b-4n-cnj"/>
                         <outlet property="radiusSegmentedControl" destination="G6Y-8g-DcW" id="qm2-NH-jcS"/>
                     </connections>
                 </viewController>
@@ -378,7 +401,7 @@
                                     <action selector="segmentChanged:" destination="9lC-a7-lPN" eventType="valueChanged" id="WtZ-cN-jfG"/>
                                 </connections>
                             </segmentedControl>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No tweets within this area" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3y8-ts-Ect">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No tweets in this area" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3y8-ts-Ect">
                                 <rect key="frame" x="0.0" y="225" width="600" height="150"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="MXE-Xi-RK9"/>

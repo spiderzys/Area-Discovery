@@ -14,7 +14,10 @@ class FourthViewController: UIViewController, NSXMLParserDelegate {
     
     @IBOutlet weak var flickrCollectionView: UICollectionView!
     
+    @IBOutlet weak var noPhotosLabel: UILabel!
+    
     let flickrCollectionViewReuseIdentifier = "flickr"
+    @IBOutlet weak var backgroundImageView: UIImageView!
     var radius = 1
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -31,16 +34,23 @@ class FourthViewController: UIViewController, NSXMLParserDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateBackgroundImage), name: appDelegate.backgroundImageUpdatedNotificationName, object: nil)
         flickrCollectionView.registerNib(UINib.init(nibName: "FlickrCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: flickrCollectionViewReuseIdentifier)
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+        
         
         if appDelegate.isFourthUpdateNeeded {
             reloadFlickrs()
         }
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        appDelegate.isFourthUpdateNeeded = false;
+        super.viewWillDisappear(animated)
     }
     
     override func didReceiveMemoryWarning() {
@@ -48,9 +58,16 @@ class FourthViewController: UIViewController, NSXMLParserDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    
+    func updateBackgroundImage () {
+        dispatch_async(dispatch_get_main_queue(), {
+            self.backgroundImageView.image = self.appDelegate.backgroundImage
+        })
+        
+    }
+
     
     func reloadFlickrs() {
+        flickrArray = [[String:String]]()
         let currentLocationCoordinateString = "lat="+String(appDelegate.addressCoordinate!.latitude)+"&lon="+String(appDelegate.addressCoordinate!.longitude)
         
         let format = NSDateFormatter.init()
@@ -62,7 +79,7 @@ class FourthViewController: UIViewController, NSXMLParserDelegate {
         
         //  let dateString = "min_taken_date=" + String(year!) + "-01-01"
         //  let currentYearString
-        let searchRequestString = baseUrlString + searchMethodString + "&" + currentLocationCoordinateString + "&" + formatString + "&" + dateString + "&" + apiKey + "&order=date-taken-desc&privacy_filter=1"
+        let searchRequestString = baseUrlString + searchMethodString + "&" + currentLocationCoordinateString + "&" + formatString + "&" + dateString + "&" + apiKey + "&order=date-taken-desc&privacy_filter=1" + "&radius=" + String(radius)
         print(searchRequestString)
         
         let searchData = NSData.init(contentsOfURL: NSURL.init(string: searchRequestString)!)
@@ -77,6 +94,7 @@ class FourthViewController: UIViewController, NSXMLParserDelegate {
             parser.parse()
             
         }
+        
     }
     
     func parserDidEndDocument(parser: NSXMLParser) {
@@ -92,6 +110,16 @@ class FourthViewController: UIViewController, NSXMLParserDelegate {
     
     func collectionView(collectionView: UICollectionView,
                         didSelectItemAtIndexPath indexPath: NSIndexPath){
+        let flickrCell = collectionView.cellForItemAtIndexPath(indexPath) as! FlickrCollectionViewCell
+        let flickr = flickrArray[indexPath.row]
+        let flickrPhotoViewController = FlickrPhotoViewController.init(nibName: "FlickrPhotoViewController", bundle: nil, id: flickr["id"]!, title: flickr["title"]!)
+        
+        self.presentViewController(flickrPhotoViewController, animated: true, completion: {
+            flickrPhotoViewController.flickrImageView.image = flickrCell.backgroundImageView.image
+            flickrPhotoViewController.backgroundImageView.image = self.backgroundImageView.image
+        })
+        
+        
         
     }
     
@@ -102,7 +130,13 @@ class FourthViewController: UIViewController, NSXMLParserDelegate {
     
     func collectionView(collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int{
+        if(flickrArray.count == 0){
+            noPhotosLabel.hidden = false
+        }
         
+        else{
+            noPhotosLabel.hidden = true
+        }
         // todo : show no pics available
         return flickrArray.count
         
@@ -111,6 +145,7 @@ class FourthViewController: UIViewController, NSXMLParserDelegate {
                         cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
         let flickrCell = collectionView.dequeueReusableCellWithReuseIdentifier(flickrCollectionViewReuseIdentifier, forIndexPath: indexPath) as! FlickrCollectionViewCell
         flickrCell.backgroundImageView.image = nil
+        flickrCell.userInteractionEnabled = false
         let flickr = flickrArray[indexPath.row]
         
         
@@ -128,6 +163,8 @@ class FourthViewController: UIViewController, NSXMLParserDelegate {
             if updateCell != nil && data != nil {
                 dispatch_async(dispatch_get_main_queue(), {
                     updateCell?.backgroundImageView.image = UIImage.init(data: data!)
+                    updateCell?.userInteractionEnabled = true
+                    updateCell?.sizeToFit()
                 })
             }
             

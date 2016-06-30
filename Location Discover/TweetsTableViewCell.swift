@@ -8,7 +8,7 @@
 
 import UIKit
 
-class tweetsTableViewCell: UITableViewCell {
+class TweetsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var favouriteNumLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
