@@ -19,8 +19,8 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
     var radius = 1;
     
     var accessToken: String?
-    let consumerKey = // your own key
-    let consumerSecret = // your own secret
+    let consumerKey = "tn7UBJpVn1W7Ke6XvzErIswIu"
+    let consumerSecret = "d3f6erBXh20TEkJQFeJhfEwNDtUgs6ciLq0DVCrK6UoyV12c1a"
     let baseUrlString = "https://api.twitter.com/1.1/"
 
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
