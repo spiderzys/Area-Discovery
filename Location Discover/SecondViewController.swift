@@ -28,7 +28,7 @@ class SecondViewController: ViewController , ChartDelegate   {
     
     let celsiusSymbol = "\u{00B0}C"
     let forecastRequestString = "http://api.aerisapi.com/forecasts/closest?filter=1hr&limit=12&p="
-    let apiKey = "?????"  // your own cliend-id and secret
+    let apiKey = "client_id=NlFypg1vJvWqzu0va8Q6f&client_secret=uPIBFJjqieCCHEaO3AIHK5XUVzroPcbKmDYATqpv"  // your own cliend-id and secret
     var periods: NSArray?
     
     var currentIndex:Int = 0;
