@@ -84,7 +84,13 @@ class SecondViewController: ViewController , ChartDelegate   {
         
         forecastChart.removeSeries()
         forecastChart.setNeedsDisplay()
-        periods = loadForecast()
+        let currentLocationCoordinateString = String(appDelegate.addressCoordinate!.latitude) + ","+String(appDelegate.addressCoordinate!.longitude)
+        let currentLocationForecastRequestString = forecastRequestString + currentLocationCoordinateString + "&" + apiKey
+        // print(currentLocationForecastRequestString)
+        
+      
+
+        periods = DataProcessor.sharedInstance().getForecastData(NSURL.init(string: currentLocationForecastRequestString)!)
         if(periods != nil){
             if(periods?.count == 12 ){
                 drawForecastLineChart()
@@ -93,52 +99,16 @@ class SecondViewController: ViewController , ChartDelegate   {
             }
         }
         
+        else {
+            showAlert("No network")
+        }
+        
     }
 
     
     
     
-    func loadForecast()->NSArray?  {
         
-        let currentLocationCoordinateString = String(appDelegate.addressCoordinate!.latitude) + ","+String(appDelegate.addressCoordinate!.longitude)
-        let currentLocationForecastRequestString = forecastRequestString + currentLocationCoordinateString + "&" + apiKey
-       // print(currentLocationForecastRequestString)
-        
-        let forecastData = NSData.init(contentsOfURL: NSURL.init(string: currentLocationForecastRequestString)!)
-        
-        
-        
-        if forecastData != nil {
-            
-            do{
-                let dict:NSDictionary = try NSJSONSerialization.JSONObjectWithData(forecastData!, options: []) as! NSDictionary
-     
-                let success = dict.valueForKey("success") as! Bool
-                if(success){
-                    
-                    let response = dict.valueForKey("response") as! NSArray
-                    return response[0].valueForKey("periods") as? NSArray
-                    
-          
-                }
-                else{
-                    let error = dict.valueForKey("error")
-                    return NSArray.init(object: error!)
-                }
-                
-                }catch _ {
-    
-            }
-            
-        }
-            
-        else {
-            self.showAlert("no network")
-            
-        }
-        return nil
-    }
-    
     func drawForecastLineChart(){
        // currentHour = getCurrentHour()
 

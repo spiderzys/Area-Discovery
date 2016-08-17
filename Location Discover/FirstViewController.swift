@@ -33,15 +33,17 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
         for tabBarItem:UITabBarItem in self.tabBarController!.tabBar.items! {
             tabBarItem.enabled = false
         }
-        
+        // ---------------- inital location manager -----------------
         appDelegate.window?.tintColor = locationLabel.textColor
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         mapView.region.span = MKCoordinateSpan.init(latitudeDelta: 4, longitudeDelta: 4)
         
         activeLocationManagerAuthorization()
+        
+        //---------------------------end---------------------
         mapView.addAnnotation(currentLocationAnnotation)
-       
+    
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -52,13 +54,11 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
     }
     
     func activeLocationManagerAuthorization() {
-        
+        // check authorization of location
         if(CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedAlways || CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse){
-            let user = NSUserDefaults.standardUserDefaults()
-            if(!user.boolForKey("first")){
-                self.showAlert("long press on the map to change the location")
-                user.setObject(true, forKey: "first")
-            }
+            // if location is good
+            
+            showHint()
 
             locationManager.startUpdatingLocation();
         }
@@ -74,18 +74,25 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager,
                          didChangeAuthorizationStatus status: CLAuthorizationStatus){
-        
+        // when location authorization has been updated
         if(status == CLAuthorizationStatus.AuthorizedAlways || status == CLAuthorizationStatus.AuthorizedWhenInUse){
-            let user = NSUserDefaults.standardUserDefaults()
-            if(!user.boolForKey("first")){
-                self.showAlert("long press on the map to change the location")
-                user.setObject(true, forKey: "first")
-            }
+            showHint()
+            
 
             locationManager.startUpdatingLocation();
-            // next step
-            
+           
         }
+    }
+    
+    func showHint(){
+        
+        // for first time user, show hint
+        let user = NSUserDefaults.standardUserDefaults()
+        if(!user.boolForKey("first")){
+            self.showAlert("long press on the map to change the location")
+            user.setObject(true, forKey: "first")
+        }
+
     }
     
     
@@ -102,6 +109,10 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
    
     
     func showLocation(coordinate:CLLocationCoordinate2D){
+        
+        // show the information of selected coordinate
+        
+        
         appDelegate.addressCoordinate = coordinate
         isLocationChanged = true
         appDelegate.isSecondUpadateNeeded = true
@@ -135,7 +146,7 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
     }
     
     func getAddressFrom(placemark:CLPlacemark) -> [String:String?]! {
-        
+        // get address dic from placemark
         let addressDic:[String:String?] = ["city":placemark.locality,"state":placemark.administrativeArea,"country":placemark.country]
         return addressDic
         
@@ -143,6 +154,8 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
     
     
     @IBAction func coordinateMove(sender: AnyObject) {
+        
+        // when user specifies a new coordinate
         locationSearchBar.endEditing(true)
         let touchPoint = longPressGesture.locationOfTouch(0, inView: mapView)
         
@@ -187,6 +200,8 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
     }
     
     func searchBar(searchBar: UISearchBar,textDidChange searchText: String){
+        
+        // when search bar is being edited, get new search result
         let localSearchRequest = MKLocalSearchRequest()
         localSearchRequest.region = MKCoordinateRegionForMapRect(MKMapRectWorld)
         localSearchRequest.naturalLanguageQuery = searchBar.text
@@ -214,6 +229,9 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
     }
     
     func showSearchResultFrom(placemark:CLPlacemark){
+        
+        
+        // get the location of selected placemark
         self.mapView.region.center = (placemark.location?.coordinate)!
         
         self.searchResultPlacemarks = nil;
@@ -262,13 +280,18 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
         showSearchResultFrom(searchResultPlacemarks![indexPath.row].placemark)
         
     }
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
+   
+    // ----------------------------------end------------------------------------------
     
     
     override func viewWillDisappear(animated: Bool) {
+               takeSnapShot()
+               super.viewWillDisappear(animated)
+    }
+    
+    func takeSnapShot(){
         
+        // take snapshot as background image
         let options = MKMapSnapshotOptions()
         options.region = mapView.region
         options.scale = UIScreen.mainScreen().scale
@@ -281,7 +304,7 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
         
         if(isLocationChanged){
             self.isLocationChanged = false
-
+            
             snapShotter.startWithQueue(dispatch_get_main_queue(), completionHandler: {(snapshot:MKMapSnapshot?, error:NSError?)  in
                 if(error == nil){
                     self.appDelegate.backgroundImage = snapshot?.image
@@ -291,7 +314,7 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
                 
             })
         }
-        super.viewWillDisappear(animated)
+
     }
     
     

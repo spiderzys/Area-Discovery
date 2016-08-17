@@ -29,6 +29,10 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
     
     let tweetsTableViewReuseIdentifier = "tweet"
     
+    //var imageCache: [Int: NSData]?
+    
+    var currentCacheOutIndex = 0
+    
         
     func authenticate(completionBlock: Void -> ()) {
         
@@ -59,14 +63,14 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
                 "lat": (self.appDelegate.addressCoordinate?.latitude)!,
                 "long":(self.appDelegate.addressCoordinate?.longitude)!
             ]*/
-        
-            Alamofire.request(.GET, self.baseUrlString + "search/tweets.json?q=&geocode="+String(appDelegate.addressCoordinate!.latitude)+","+String(appDelegate.addressCoordinate!.longitude)+","+String(radius)+"km&result_type=recent", headers: headers, parameters: nil)
+  
+            Alamofire.request(.GET, self.baseUrlString + "search/tweets.json?q=&geocode="+String(appDelegate.addressCoordinate!.latitude)+","+String(appDelegate.addressCoordinate!.longitude)+","+String(radius)+"km&result_type=recent&count=50", headers: headers, parameters: nil)
                 .responseJSON { response in
             //    print(response)
                     
                     if let result = response.result.value {
                         
-                        
+                        print(result)
                         
                         self.tweets = result.valueForKey("statuses") as? [NSDictionary]
                         if(self.tweets != nil){
