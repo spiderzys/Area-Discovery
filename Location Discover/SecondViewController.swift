@@ -12,26 +12,26 @@ import SwiftChart
 class SecondViewController: ViewController , ChartDelegate   {
     static var isUpdateNeed = true
     
-    @IBOutlet weak var forecastChart: Chart!
+    @IBOutlet weak var forecastChart: Chart!  // line chart for temperature
     
-    @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var backgroundImageView: UIImageView!  // background imageview
     
-    @IBOutlet weak var weatherImageView: UIImageView!
+    @IBOutlet weak var weatherImageView: UIImageView!   // show current weather
     
-    @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var temperatureLabel: UILabel!   // show temperature
     
-    @IBOutlet weak var feelTemperatureLabel: UILabel!
+    @IBOutlet weak var feelTemperatureLabel: UILabel! // show feel temperature
     
-    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!  // show specified location
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     let celsiusSymbol = "\u{00B0}C"
-    let forecastRequestString = "http://api.aerisapi.com/forecasts/closest?filter=1hr&limit=12&p="
+    let forecastRequestString = "http://api.aerisapi.com/forecasts/closest?filter=1hr&limit=12&p="// forecast request url string
     let apiKey = "client_id=NlFypg1vJvWqzu0va8Q6f&client_secret=uPIBFJjqieCCHEaO3AIHK5XUVzroPcbKmDYATqpv"  // your own cliend-id and secret
-    var periods: NSArray?
+    var periods: NSArray?   //
     
-    var currentIndex:Int = 0;
+    var currentIndex:Int = 0;  // show current period index in the line chart
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -184,6 +184,7 @@ class SecondViewController: ViewController , ChartDelegate   {
     
     
     func getColorFrom(temperature:Float) -> UIColor {
+        // the lable text color will change for different temperature range
         switch temperature {
         case 35...100:
         return UIColor.redColor()
