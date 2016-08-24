@@ -11,11 +11,11 @@ import Alamofire
 
 class ThirdViewController: ViewController, UIScrollViewDelegate {
 
-    @IBOutlet weak var backgroundImageView: UIImageView!
-    @IBOutlet weak var radiusSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var backgroundImageView: UIImageView!   // background imageview
+    @IBOutlet weak var radiusSegmentedControl: UISegmentedControl!   // for choosing the radius of tweets
     
-    @IBOutlet weak var noTweetsLabel: UILabel!
-    @IBOutlet weak var tweetsTableView: UITableView!
+    @IBOutlet weak var noTweetsLabel: UILabel!    // show when no tweets in specified area
+    @IBOutlet weak var tweetsTableView: UITableView!    // tableview shows the tweets
     var radius = 1;
     
     var accessToken: String?
