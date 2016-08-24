@@ -12,18 +12,18 @@ import MapKit
 class FirstViewController: ViewController,CLLocationManagerDelegate {
     
     @IBOutlet var longPressGesture: UILongPressGestureRecognizer!
-    @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var locationLabel: UILabel!
-    @IBOutlet weak var searchResultTableView: UITableView!
-    @IBOutlet weak var locationSearchBar: UISearchBar!
+    @IBOutlet weak var mapView: MKMapView!  // the mapview on the screen
+    @IBOutlet weak var locationLabel: UILabel!  // shows the location
+    @IBOutlet weak var searchResultTableView: UITableView! // auto complete result
+    @IBOutlet weak var locationSearchBar: UISearchBar! // bar for searching
     
     var geoCoder:CLGeocoder = CLGeocoder.init()
     let locationManager = CLLocationManager.init()
-    var currentLocationAnnotation = MKPointAnnotation.init()
+    var currentLocationAnnotation = MKPointAnnotation.init()  // annotation on the map
     var searchResultPlacemarks:Array<MKMapItem>?
     let searchResultTableViewCellIdentifier = "map"
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    var isLocationChanged = true
+    var isLocationChanged = true // determine whether location updated
     
     override func viewDidLoad() {
        
