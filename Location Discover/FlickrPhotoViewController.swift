@@ -12,27 +12,28 @@ class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
     
     @IBOutlet weak var flickrImageView: UIImageView!
     //var flickr: [String:String]
-    @IBOutlet weak var noCommentsLabel: UILabel!
+    @IBOutlet weak var noCommentsLabel: UILabel!  // the label shows when no comments found
 
-    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel! // the label shows the date of image posted
     
-    @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var backgroundImageView: UIImageView! // the background imageview for this page
     
-    @IBOutlet weak var commentLabel: UILabel!
+    @IBOutlet weak var commentLabel: UILabel!  // "comment"
     
-    @IBOutlet weak var commentsTableView: UITableView!
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var commentsTableView: UITableView! // tableview showing the comments
+    @IBOutlet weak var titleLabel: UILabel!  // title label
     
-    let baseUrlString =  "https://api.flickr.com/services/rest/?"
-    let infoMethodString = "method=flickr.photos.getInfo"
-    let commentMethodString = "method=flickr.photos.comments.getList"
-    let apiKey = "api_key=38f54e0aad5942419017de0ae7944197"
-    var photoTitle:String
-    var photoId:String
-  //  var flickrInfoArray = [[String:String]]()
-  //  var flickrCommentArray = [[String:String]]()
+    let baseUrlString =  "https://api.flickr.com/services/rest/?"  // base url of API
+    let infoMethodString = "method=flickr.photos.getInfo"  //  photo infomation get method API
+    let commentMethodString = "method=flickr.photos.comments.getList"  // photo comments get method API
+    let apiKey = "api_key=38f54e0aad5942419017de0ae7944197"  // API KEY for flickr
+    
+    var photoTitle:String  // photo title string
+    var photoId:String     // photo id string
+
+  
     var comments: NSArray?
-    let commentsTableViewReuseIdentifier = "comment"
+    let commentsTableViewReuseIdentifier = "comment"  // comments tableview reuseid string
    
     
     init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?, id:String, title: String) {
@@ -68,11 +69,12 @@ class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
         
         
         let getInfoString = baseUrlString + infoMethodString + "&" + apiKey + "&" + "photo_id=" + photoId
+        // the url string of request of photo infomation
         
         let infoData = NSData.init(contentsOfURL: NSURL.init(string: getInfoString)!)
-    
+         // get data of API
         if infoData != nil {
-            
+            // parse XML data
             let infoParser = NSXMLParser.init(data: infoData!)
             infoParser.delegate = self
             infoParser.parse()
@@ -80,12 +82,14 @@ class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
         }
         
         let getCommentString = baseUrlString + commentMethodString + "&" + apiKey + "&" + "photo_id=" + photoId + "&format=json&nojsoncallback=1"
+        // the url string of request of photo comments
 
         let commentData = NSData.init(contentsOfURL: NSURL.init(string: getCommentString)!)
         
         if commentData != nil {
             
             do{
+                // JSON parse
                 let dict:NSDictionary = try NSJSONSerialization.JSONObjectWithData(commentData!, options: []) as! NSDictionary
                 
                 let stat = dict.valueForKey("stat") as! String
@@ -115,20 +119,13 @@ class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
         
        
         
-        
-       
-
-      //  dateLabel.text = flickr[]
-        // Do any additional setup after loading the view.
+  
     }
     
     func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
-        /*
-        if elementName == "owner"{
-            
-            flickrInfoArray.append(attributeDict)
-        }
-        */
+        
+        // delegate method of XML parser, when paser start to parse element
+        
         if elementName == "dates"{
             
             dateLabel.text = attributeDict["taken"]
@@ -139,17 +136,7 @@ class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
 
     }
     
-    func parserDidEndDocument(parser: NSXMLParser) {
-        
-          //  let owner = flickrInfoArray[0]
-         //   usernameLabel.text = owner["username"]!
-          //  let dates = flickrInfoArray[0]
-          //  dateLabel.text = dates["taken"]!
-        
-            
-        
-    }
-
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -159,6 +146,7 @@ class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
     
     //-----------------tableview delegate-----------------------
     func numberOfSectionsInTableView(tableView: UITableView) -> Int{
+        // depends on whether there are comments for the photo
         if (comments == nil){
             noCommentsLabel.hidden = false
             return 0
@@ -171,6 +159,7 @@ class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+        // depends on the number of comments
         return comments!.count
     }
     
@@ -182,6 +171,8 @@ class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
+        
+        // custom comment cell
         var commentCell = tableView.dequeueReusableCellWithIdentifier(commentsTableViewReuseIdentifier)
         if(commentCell == nil){
             
@@ -203,7 +194,7 @@ class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
         return commentCell!
     }
     
-   
+   // - -----------------------------------end---------------------------------------
     /*
     // MARK: - Navigation
 

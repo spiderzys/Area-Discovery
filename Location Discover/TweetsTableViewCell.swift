@@ -10,10 +10,10 @@ import UIKit
 
 class TweetsTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var favouriteNumLabel: UILabel!
-    @IBOutlet weak var userImageView: UIImageView!
-    @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var tweetLabel: UILabel!
+    @IBOutlet weak var favouriteNumLabel: UILabel!  // show the number of favorites of this tweets
+    @IBOutlet weak var userImageView: UIImageView!  // show the poster photo
+    @IBOutlet weak var usernameLabel: UILabel!      // show the poster name
+    @IBOutlet weak var tweetLabel: UILabel!         // show the content of the tweets
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
