@@ -18,24 +18,21 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
     @IBOutlet weak var tweetsTableView: UITableView!    // tableview shows the tweets
     var radius = 1;
     
-    var accessToken: String?
-    let consumerKey = "tn7UBJpVn1W7Ke6XvzErIswIu"
+    var accessToken: String?   // the access token for api request
+    let consumerKey = "tn7UBJpVn1W7Ke6XvzErIswIu"    // my key and secret
     let consumerSecret = "d3f6erBXh20TEkJQFeJhfEwNDtUgs6ciLq0DVCrK6UoyV12c1a"
-    let baseUrlString = "https://api.twitter.com/1.1/"
+    let baseUrlString = "https://api.twitter.com/1.1/"   // tweets api base url
 
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
-    var tweets: [NSDictionary]?
+    var tweets: [NSDictionary]?  // record the return tweets from api
     
-    let tweetsTableViewReuseIdentifier = "tweet"
+    let tweetsTableViewReuseIdentifier = "tweet"  // tweets tableview reuse id
     
-    //var imageCache: [Int: NSData]?
-    
-    var currentCacheOutIndex = 0
     
         
     func authenticate(completionBlock: Void -> ()) {
-        
+        // get authenticate from tweets
         let credentials = "\(consumerKey):\(consumerSecret)"
         let headers = ["Authorization": "Basic \(getBase64(credentials))"]
         let params: [String : AnyObject] = ["grant_type": "client_credentials"]
@@ -54,19 +51,13 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
     }
     
     func loadTweets() {
+          // get tweets after authorization
         
-         //  accessToken = "????"
            let headers = ["Authorization": "Bearer \(accessToken!)"]
-           /* let params: [String : AnyObject] = [
-               // "screen_name" : screenName,
-             //   "count": self.pageSize
-                "lat": (self.appDelegate.addressCoordinate?.latitude)!,
-                "long":(self.appDelegate.addressCoordinate?.longitude)!
-            ]*/
-  
+        
             Alamofire.request(.GET, self.baseUrlString + "search/tweets.json?q=&geocode="+String(appDelegate.addressCoordinate!.latitude)+","+String(appDelegate.addressCoordinate!.longitude)+","+String(radius)+"km&result_type=recent&count=50", headers: headers, parameters: nil)
                 .responseJSON { response in
-            //    print(response)
+           
                     
                     if let result = response.result.value {
                         
@@ -74,12 +65,12 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
                         
                         self.tweets = result.valueForKey("statuses") as? [NSDictionary]
                         if(self.tweets != nil){
-                            
+                            // json parser
                             let user = NSUserDefaults.standardUserDefaults()
                             user.setObject(self.accessToken, forKey: "token")
                             self.tweetsTableView.reloadData()
                             self.tweetsTableView.scrollEnabled = true
-                       //     print(t.valueForKey("favorite_count"))
+                      
                         }
                         else {
                             let errors = result.valueForKey("errors") as! NSArray
@@ -105,6 +96,8 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
     
     
     func getBase64(data:String) -> String {
+        
+           // encoding data
             let credentialData = data.dataUsingEncoding(NSUTF8StringEncoding)!
             return credentialData.base64EncodedStringWithOptions([])
         }
@@ -116,21 +109,22 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
         
         super.viewDidLoad()
         tweetsTableView.registerNib(UINib.init(nibName: "TweetsTableViewCell", bundle: nil), forCellReuseIdentifier: tweetsTableViewReuseIdentifier)
-       // tweetsTableView.estimatedRowHeight = 50
-        tweetsTableView.rowHeight = UITableViewAutomaticDimension
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateBackgroundImage), name: appDelegate.backgroundImageUpdatedNotificationName, object: nil)
+              tweetsTableView.rowHeight = UITableViewAutomaticDimension
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateBackgroundImage), name: appDelegate.backgroundImageUpdatedNotificationName, object: nil) // add observer for background image uodate
         let user = NSUserDefaults.standardUserDefaults()
-        accessToken = user.objectForKey("token") as? String
+        accessToken = user.objectForKey("token") as? String // try to get access token from local storage
         // Do any additional setup after loading the view.
     }
     
     func updateBackgroundImage()  {
+        // update background image when first viewcontroller finished
         dispatch_async(dispatch_get_main_queue(), {
             self.backgroundImageView.image = self.appDelegate.backgroundImage
         })
     }
     
     override func viewWillAppear(animated: Bool) {
+        // when the tweets need update
         super.viewWillAppear(animated)
         if(appDelegate.isThirdUpadateNeeded){
             self.backgroundImageView.image = self.appDelegate.backgroundImage
@@ -143,13 +137,14 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
     
     func reloadTweets(){
         if(accessToken == nil){
-            
+            // if accessToken not available, start from authentication
             authenticate({
                 self.loadTweets()
             })
             
         }
         else {
+            // otherwise, start from load
                 loadTweets()
             
         }
@@ -159,6 +154,7 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
     
     
     @IBAction func segmentChanged(sender: AnyObject) {
+        // change the radius parameter and reload tweets
         switch radiusSegmentedControl.selectedSegmentIndex {
         case 0:
             radius = 1
@@ -175,6 +171,7 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
     //------------tweet tableview delegate---------------
     func numberOfSectionsInTableView(tableView: UITableView) -> Int{
         if (tweets == nil){
+            // depends on whether tweets are available for specified area
             if accessToken != nil{
                noTweetsLabel.hidden = false
             }
@@ -204,6 +201,8 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
+        
+        // custom the tweets tableview cell
         var tweetCell = tableView.dequeueReusableCellWithIdentifier(tweetsTableViewReuseIdentifier) as? TweetsTableViewCell
         if(tweetCell == nil){
             
@@ -245,17 +244,17 @@ class ThirdViewController: ViewController, UIScrollViewDelegate {
         return tweetCell!
     }
     
-    
+    // -----------------------------end---------------------------------------------
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
+        // reload when scroll to top
         if scrollView.contentOffset.y < -100 {
             print(scrollView.contentOffset.y)
             tweetsTableView.scrollEnabled = false
             reloadTweets()
         }
         
-      //  print(scrollView.contentOffset.y)
+     
     }
 
     override func didReceiveMemoryWarning() {
