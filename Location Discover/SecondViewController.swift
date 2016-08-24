@@ -41,7 +41,7 @@ class SecondViewController: ViewController , ChartDelegate   {
             self.showAlert("try touching the chart")
             user.setObject(true, forKey: "second")
         }
-        
+        // give clue when it is the first time of usage
         
         temperatureLabel.adjustsFontSizeToFitWidth = true
         feelTemperatureLabel.adjustsFontSizeToFitWidth = true
@@ -53,6 +53,7 @@ class SecondViewController: ViewController , ChartDelegate   {
     
     
     func updateBackgroundImage () {
+        // update background image
         dispatch_async(dispatch_get_main_queue(), {
             self.backgroundImageView.image = self.appDelegate.backgroundImage
         })
@@ -111,13 +112,14 @@ class SecondViewController: ViewController , ChartDelegate   {
         
     func drawForecastLineChart(){
        // currentHour = getCurrentHour()
-
+        // draw the chart line for the
         var linePoints: Array<(x: Float, y: Float)> = Array.init(count: periods!.count, repeatedValue: (x: 0,y: 0))
         
         var index = 0
         var maxTemperature:Float = -99
         var minTemperature:Float = 99
         for period in periods as! [NSDictionary] {
+            // get the max and min temperature during the period
             let temperature = period.valueForKey("tempC") as! NSNumber
             if(temperature.floatValue < minTemperature){
                 minTemperature = temperature.floatValue
@@ -131,27 +133,23 @@ class SecondViewController: ViewController , ChartDelegate   {
             
         }
         
-        forecastChart.axesColor = (appDelegate.window?.tintColor!)!
-        forecastChart.labelFont = UIFont.systemFontOfSize(13)
+        forecastChart.axesColor = (appDelegate.window?.tintColor!)! // custom axis color
+        forecastChart.labelFont = UIFont.systemFontOfSize(13)  // custom text size
         forecastChart.maxY = maxTemperature + 2
-        forecastChart.minY = minTemperature - 2
-        forecastChart.labelColor = (appDelegate.window?.tintColor!)!
-        forecastChart.yLabelsOnRightSide = true
-        forecastChart.highlightLineColor = UIColor.redColor()
+        forecastChart.minY = minTemperature - 2  // min and max Y(temperature) for line chart
+        forecastChart.labelColor = (appDelegate.window?.tintColor!)!  // custom text color
+        forecastChart.yLabelsOnRightSide = true   // set Y axis on the right
+        forecastChart.highlightLineColor = UIColor.redColor() // set the color of axies shows user specified period
         forecastChart.yLabelsFormatter = { (labelIndex: Int, labelValue: Float) -> String in
             return String(format:"%.1f%@", labelValue, self.celsiusSymbol)
         }
-        
+        // the format of value on Y
         
         forecastChart.xLabelsFormatter = { (labelIndex: Int, labelValue: Float) -> String in
             if(labelIndex == 0){
                 return "->"
             }
-            /*
-            if (labelIndex == 10){
-                return String(format:"%d:00", Int(labelValue)%24)
-            }
- */
+        // the format of value on X
             
             
             return String(format:"%d", labelIndex)
@@ -163,6 +161,8 @@ class SecondViewController: ViewController , ChartDelegate   {
     }
     
     func showCurrentWeather(period:NSDictionary){
+        
+        // custome the labels for a speicified period
         let weatherIcon = period.valueForKey("icon") as! NSString
         weatherImageView.image = UIImage.init(named: weatherIcon as String)
         let temperature = period.valueForKey("tempC") as! NSNumber
@@ -220,6 +220,8 @@ class SecondViewController: ViewController , ChartDelegate   {
     
     
     func didTouchChart(chart: Chart, indexes: Array<Int?>, x: Float, left: CGFloat) {
+        
+        // the mehtod when user move the axis of the chart
         if(Int(round(x)) != currentIndex){
             currentIndex = Int(round(x))
             showCurrentWeather(periods![currentIndex] as! NSDictionary)
