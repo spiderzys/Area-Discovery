@@ -2,12 +2,12 @@
 
 
 # Uncomment this line if you're using Swift
- platform :ios, '9.0'
+ platform :ios, ’10.0’
  use_frameworks!
-
+ 
 target ‘Location Discover’ do
    pod "SwiftChart"
-   pod 'Alamofire', '~> 3.4'
+   pod 'Alamofire', '~> 4.0’
  
    
 

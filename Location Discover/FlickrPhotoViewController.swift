@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
+class FlickrPhotoViewController: UIViewController,XMLParserDelegate{
     
     @IBOutlet weak var flickrImageView: UIImageView!
     //var flickr: [String:String]
@@ -36,7 +36,7 @@ class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
     let commentsTableViewReuseIdentifier = "comment"  // comments tableview reuseid string
    
     
-    init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?, id:String, title: String) {
+    init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, id:String, title: String) {
         photoId = id
         photoTitle = title
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -50,9 +50,9 @@ class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
     }
     
     
-    @IBAction func dismiss(sender: AnyObject) {
+    @IBAction func dismiss(_ sender: AnyObject) {
       
-        dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
   
     }
     
@@ -71,11 +71,11 @@ class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
         let getInfoString = baseUrlString + infoMethodString + "&" + apiKey + "&" + "photo_id=" + photoId
         // the url string of request of photo infomation
         
-        let infoData = NSData.init(contentsOfURL: NSURL.init(string: getInfoString)!)
+        let infoData = try? Data.init(contentsOf: URL.init(string: getInfoString)!)
          // get data of API
         if infoData != nil {
             // parse XML data
-            let infoParser = NSXMLParser.init(data: infoData!)
+            let infoParser = XMLParser.init(data: infoData!)
             infoParser.delegate = self
             infoParser.parse()
             
@@ -84,18 +84,18 @@ class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
         let getCommentString = baseUrlString + commentMethodString + "&" + apiKey + "&" + "photo_id=" + photoId + "&format=json&nojsoncallback=1"
         // the url string of request of photo comments
 
-        let commentData = NSData.init(contentsOfURL: NSURL.init(string: getCommentString)!)
+        let commentData = try? Data.init(contentsOf: URL.init(string: getCommentString)!)
         
         if commentData != nil {
             
             do{
                 // JSON parse
-                let dict:NSDictionary = try NSJSONSerialization.JSONObjectWithData(commentData!, options: []) as! NSDictionary
+                let dict:NSDictionary = try JSONSerialization.jsonObject(with: commentData!, options: []) as! NSDictionary
                 
-                let stat = dict.valueForKey("stat") as! String
+                let stat = dict.value(forKey: "stat") as! String
                 if(stat == "ok"){
-                    let comment = dict.valueForKey("comments") as? NSDictionary
-                    comments = comment?.valueForKey("comment") as? NSArray
+                    let comment = dict.value(forKey: "comments") as? NSDictionary
+                    comments = comment?.value(forKey: "comment") as? NSArray
                     if comments != nil {
                 
                         commentLabel.text = String(comments!.count)
@@ -122,7 +122,7 @@ class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
   
     }
     
-    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         
         // delegate method of XML parser, when paser start to parse element
         
@@ -145,49 +145,49 @@ class FlickrPhotoViewController: UIViewController,NSXMLParserDelegate{
     
     
     //-----------------tableview delegate-----------------------
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int{
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int{
         // depends on whether there are comments for the photo
         if (comments == nil){
-            noCommentsLabel.hidden = false
+            noCommentsLabel.isHidden = false
             return 0
         }
             
         else {
-            noCommentsLabel.hidden = true
+            noCommentsLabel.isHidden = true
             return 1
         }
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
         // depends on the number of comments
         return comments!.count
     }
     
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
         
         return 40
         
     }
     
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell{
         
         // custom comment cell
-        var commentCell = tableView.dequeueReusableCellWithIdentifier(commentsTableViewReuseIdentifier)
+        var commentCell = tableView.dequeueReusableCell(withIdentifier: commentsTableViewReuseIdentifier)
         if(commentCell == nil){
             
-            commentCell = TweetsTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: commentsTableViewReuseIdentifier)
+            commentCell = TweetsTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: commentsTableViewReuseIdentifier)
             commentCell?.textLabel?.numberOfLines = 0
-            commentCell?.textLabel?.font = UIFont.systemFontOfSize(13)
-            commentCell!.backgroundColor = UIColor.clearColor()
+            commentCell?.textLabel?.font = UIFont.systemFont(ofSize: 13)
+            commentCell!.backgroundColor = UIColor.clear
            // commentCell?.textLabel?.textColor = noCommentsLabel.textColor
         }
         
         
         
-        let comment = comments![indexPath.row]
+        let comment = comments![(indexPath as NSIndexPath).row]
  
-        commentCell!.textLabel?.text = comment.valueForKey("_content") as? String
+        commentCell!.textLabel?.text = (comment as AnyObject).value(forKey: "_content") as? String
         commentCell?.textLabel?.sizeToFit()
      
         

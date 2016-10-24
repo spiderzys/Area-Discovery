@@ -22,16 +22,16 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
     var currentLocationAnnotation = MKPointAnnotation.init()  // annotation on the map
     var searchResultPlacemarks:Array<MKMapItem>?
     let searchResultTableViewCellIdentifier = "map"
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var isLocationChanged = true // determine whether location updated
     
     override func viewDidLoad() {
        
         super.viewDidLoad()
         
-        locationSearchBar.tintColor = UIColor.blueColor()
+        locationSearchBar.tintColor = UIColor.blue
         for tabBarItem:UITabBarItem in self.tabBarController!.tabBar.items! {
-            tabBarItem.enabled = false
+            tabBarItem.isEnabled = false
         }
         // ---------------- inital location manager -----------------
         appDelegate.window?.tintColor = locationLabel.textColor
@@ -55,7 +55,7 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
     
     func activeLocationManagerAuthorization() {
         // check authorization of location
-        if(CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedAlways || CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse){
+        if(CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways || CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse){
             // if location is good
             
             showHint()
@@ -72,10 +72,10 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
         
     }
     
-    func locationManager(manager: CLLocationManager,
-                         didChangeAuthorizationStatus status: CLAuthorizationStatus){
+    func locationManager(_ manager: CLLocationManager,
+                         didChangeAuthorization status: CLAuthorizationStatus){
         // when location authorization has been updated
-        if(status == CLAuthorizationStatus.AuthorizedAlways || status == CLAuthorizationStatus.AuthorizedWhenInUse){
+        if(status == CLAuthorizationStatus.authorizedAlways || status == CLAuthorizationStatus.authorizedWhenInUse){
             showHint()
             
 
@@ -87,28 +87,28 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
     func showHint(){
         
         // for first time user, show hint
-        let user = NSUserDefaults.standardUserDefaults()
-        if(!user.boolForKey("first")){
+        let user = UserDefaults.standard
+        if(!user.bool(forKey: "first")){
             self.showAlert("long press on the map to change the location")
-            user.setObject(true, forKey: "first")
+            user.set(true, forKey: "first")
         }
 
     }
     
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let currentLocation = locations.last
        
-        mapView.setCenterCoordinate((currentLocation?.coordinate)!, animated: true)
+        mapView.setCenter((currentLocation?.coordinate)!, animated: true)
         showLocation((currentLocation?.coordinate)!)
         manager.stopUpdatingLocation()
        
-        longPressGesture.enabled = true
+        longPressGesture.isEnabled = true
         
     }
    
     
-    func showLocation(coordinate:CLLocationCoordinate2D){
+    func showLocation(_ coordinate:CLLocationCoordinate2D){
         
         // show the information of selected coordinate
         
@@ -127,9 +127,9 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
                 
                 self.appDelegate.addressDic = addressDic
                 
-                let addressString = self.getAddressString(addressDic)
-                if(addressString.characters.count > 1){
-                    self.locationLabel.text =   self.getAddressString(addressDic)
+                let addressString = self.getAddressString(addressDic!)
+                if((addressString?.characters.count)! > 1){
+                    self.locationLabel.text =   self.getAddressString(addressDic!)
                 }
                 else {
                     self.locationLabel.text = "unknown area"
@@ -139,13 +139,13 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
                 print(error!)
             }
             for tabBarItem:UITabBarItem in self.tabBarController!.tabBar.items! {
-                tabBarItem.enabled = true
+                tabBarItem.isEnabled = true
             }
         })
        
     }
     
-    func getAddressFrom(placemark:CLPlacemark) -> [String:String?]! {
+    func getAddressFrom(_ placemark:CLPlacemark) -> [String:String?]! {
         // get address dic from placemark
         let addressDic:[String:String?] = ["city":placemark.locality,"state":placemark.administrativeArea,"country":placemark.country]
         return addressDic
@@ -153,32 +153,32 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
     }
     
     
-    @IBAction func coordinateMove(sender: AnyObject) {
+    @IBAction func coordinateMove(_ sender: AnyObject) {
         
         // when user specifies a new coordinate
         locationSearchBar.endEditing(true)
-        let touchPoint = longPressGesture.locationOfTouch(0, inView: mapView)
+        let touchPoint = longPressGesture.location(ofTouch: 0, in: mapView)
         
-        let touchMapCoordinate = mapView.convertPoint(touchPoint, toCoordinateFromView: mapView)
+        let touchMapCoordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
         currentLocationAnnotation.coordinate = touchMapCoordinate
-        longPressGesture.enabled = false
+        longPressGesture.isEnabled = false
         mapView.region.center = touchMapCoordinate
         showLocation(touchMapCoordinate)
-        longPressGesture.enabled = true
+        longPressGesture.isEnabled = true
     }
     
-    @IBAction func returnToUserLocation(sender: AnyObject) {
+    @IBAction func returnToUserLocation(_ sender: AnyObject) {
         
-        longPressGesture.enabled = false
+        longPressGesture.isEnabled = false
         locationManager.startUpdatingLocation();
         
     }
     
-    func searchBarTextDidEndEditing( searchBar: UISearchBar){
+    func searchBarTextDidEndEditing( _ searchBar: UISearchBar){
         self.resignFirstResponder()
     }
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar){
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
         
         if(searchBar.text != nil){
             geoCoder.geocodeAddressString(searchBar.text!, completionHandler: {(placemarks:Array<CLPlacemark>?, error:NSError?) in
@@ -190,16 +190,16 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
                 else{
                     self.showSearchResultFrom(placemarks!.first!)
                 }
-            })
+            } as! CLGeocodeCompletionHandler)
         }
         searchBar.endEditing(true)
     }
     
-    func searchBarCancelButtonClicked(searchBar: UISearchBar){
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar){
         searchBar.endEditing(true)
     }
     
-    func searchBar(searchBar: UISearchBar,textDidChange searchText: String){
+    func searchBar(_ searchBar: UISearchBar,textDidChange searchText: String){
         
         // when search bar is being edited, get new search result
         let localSearchRequest = MKLocalSearchRequest()
@@ -207,7 +207,7 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
         localSearchRequest.naturalLanguageQuery = searchBar.text
         let localSearch = MKLocalSearch(request: localSearchRequest)
         
-        localSearch.startWithCompletionHandler { (localSearchResponse, error) -> Void in
+        localSearch.start { (localSearchResponse, error) -> Void in
             self.searchResultPlacemarks = nil
             
             if localSearchResponse != nil{
@@ -228,7 +228,7 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
          */
     }
     
-    func showSearchResultFrom(placemark:CLPlacemark){
+    func showSearchResultFrom(_ placemark:CLPlacemark){
         
         
         // get the location of selected placemark
@@ -244,7 +244,7 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
     
     //-----------------------tableview delegate and datasource----------------------------
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int{
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int{
         if (searchResultPlacemarks == nil){
             return 0
         }
@@ -253,38 +253,38 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
         }
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
         return 1
     }
     
-    func tableView(tableView: UITableView,
-                   heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat{
+    func tableView(_ tableView: UITableView,
+                   heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat{
         return self.view.frame.height * 0.05
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        var locationCell = tableView.dequeueReusableCellWithIdentifier(searchResultTableViewCellIdentifier)
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell{
+        var locationCell = tableView.dequeueReusableCell(withIdentifier: searchResultTableViewCellIdentifier)
         if(locationCell == nil) {
-            locationCell = UITableViewCell.init(style: .Default, reuseIdentifier: searchResultTableViewCellIdentifier)
+            locationCell = UITableViewCell.init(style: .default, reuseIdentifier: searchResultTableViewCellIdentifier)
             
         }
-        let placemark = searchResultPlacemarks![indexPath.row].placemark
+        let placemark = searchResultPlacemarks![(indexPath as NSIndexPath).row].placemark
         locationCell?.textLabel?.text = super.getAddressString(getAddressFrom(placemark))
         
         return locationCell!
         
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
+    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath){
         locationSearchBar.endEditing(true)
-        showSearchResultFrom(searchResultPlacemarks![indexPath.row].placemark)
+        showSearchResultFrom(searchResultPlacemarks![(indexPath as NSIndexPath).row].placemark)
         
     }
    
     // ----------------------------------end------------------------------------------
     
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
                takeSnapShot()
                super.viewWillDisappear(animated)
     }
@@ -294,7 +294,7 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
         // take snapshot as background image
         let options = MKMapSnapshotOptions()
         options.region = mapView.region
-        options.scale = UIScreen.mainScreen().scale
+        options.scale = UIScreen.main.scale
         options.size = mapView.frame.size;
         options.showsPointsOfInterest = true
         
@@ -305,14 +305,15 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
         if(isLocationChanged){
             self.isLocationChanged = false
             
-            snapShotter.startWithQueue(dispatch_get_main_queue(), completionHandler: {(snapshot:MKMapSnapshot?, error:NSError?)  in
+            
+            snapShotter.start(with: DispatchQueue.main, completionHandler: {(snapshot, error) -> Void in
                 if(error == nil){
                     self.appDelegate.backgroundImage = snapshot?.image
-                    NSNotificationCenter.defaultCenter().postNotificationName(self.appDelegate.backgroundImageUpdatedNotificationName, object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: self.appDelegate.backgroundImageUpdatedNotificationName), object: nil)
                     
                 }
                 
-            })
+            } )
         }
 
     }

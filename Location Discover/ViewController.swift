@@ -10,25 +10,27 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var imageCache: NSCache<NSString, NSData>?;
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        imageCache = NSCache.init()
         // Do any additional setup after loading the view.
     }
     
-    func showAlert(message:String) {
+    func showAlert(_ message:String) {
         
         
-            let alertController = UIAlertController.init(title: message, message: nil, preferredStyle: UIAlertControllerStyle.Alert)
-            let cancelAction = UIAlertAction.init(title: "ok", style: UIAlertActionStyle.Cancel, handler: nil)
+            let alertController = UIAlertController.init(title: message, message: nil, preferredStyle: UIAlertControllerStyle.alert)
+            let cancelAction = UIAlertAction.init(title: "ok", style: UIAlertActionStyle.cancel, handler: nil)
             alertController.addAction(cancelAction)
-            self.presentViewController(alertController, animated: true, completion: nil)
+            self.present(alertController, animated: true, completion: nil)
         
         
 
     }
     
-    func getAddressString (addressDic:[String:String?]) -> String!{
+    func getAddressString (_ addressDic:[String:String?]) -> String!{
         var locationInfo = ""
         if(addressDic["city"]! != nil){
             locationInfo = locationInfo + addressDic["city"]!!+", "

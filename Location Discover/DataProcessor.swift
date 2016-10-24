@@ -14,9 +14,9 @@ class DataProcessor: NSObject {
     
     // -----------------------for singleton ---------------------------
     
-    private static let singleton = DataProcessor()
+    fileprivate static let singleton = DataProcessor()
     
-    private override init(){
+    fileprivate override init(){
         // set init private to make it singleton
         
     }
@@ -28,24 +28,24 @@ class DataProcessor: NSObject {
     
     //----------------------end-------------------------------------
     
-    func getForecastData(forecastRequestUrl:NSURL) -> NSArray? {
+    func getForecastData(_ forecastRequestUrl:URL) -> NSArray? {
         let forecastData = APICommunicator.sharedInstance().requestForecastAPI(forecastRequestUrl)
         
         if forecastData != nil {
             
             do{
-                let dict:NSDictionary = try NSJSONSerialization.JSONObjectWithData(forecastData!, options: []) as! NSDictionary
+                let dict:NSDictionary = try JSONSerialization.jsonObject(with: forecastData!, options: []) as! NSDictionary
                 
-                let success = dict.valueForKey("success") as! Bool
+                let success = dict.value(forKey: "success") as! Bool
                 if(success){
                     
-                    let response = dict.valueForKey("response") as! NSArray
-                    return response[0].valueForKey("periods") as? NSArray
+                    let response = dict.value(forKey: "response") as! NSArray
+                    return (response[0] as AnyObject).value(forKey: "periods") as? NSArray
                     
                     
                 }
                 else{
-                    let error = dict.valueForKey("error")
+                    let error = dict.value(forKey: "error")
                     return NSArray.init(object: error!)
                 }
                 

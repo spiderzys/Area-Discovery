@@ -11,9 +11,9 @@ import UIKit
 class APICommunicator: NSObject {
 
     // -------------------for singleton pattern------------------
-    private static let singleton = APICommunicator()
+    fileprivate static let singleton = APICommunicator()
     
-    private override init(){
+    fileprivate override init(){
         // set init private to make it singleton
         
     }
@@ -25,8 +25,8 @@ class APICommunicator: NSObject {
     // -------------------- end-------------------------------------
     
     
-    internal func requestForecastAPI(forecastRequestUrl:NSURL) -> NSData?{
-        return NSData.init(contentsOfURL: forecastRequestUrl)
+    internal func requestForecastAPI(_ forecastRequestUrl:URL) -> Data?{
+        return (try? Data.init(contentsOf: forecastRequestUrl))
     }
     
     
