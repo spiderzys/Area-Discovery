@@ -181,22 +181,20 @@ class FirstViewController: ViewController,CLLocationManagerDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
         
         if(searchBar.text != nil){
-            geoCoder.geocodeAddressString(searchBar.text!, completionHandler: {(placemarks:Array<CLPlacemark>?, error:NSError?) in
-                
-                //   self.searchResultPlacemarks = placemarks
+            geoCoder.geocodeAddressString(searchBar.text!) { placemarks, error in
                 if (error != nil){
                     super.showAlert("No matching location returned")
                 }
                 else{
                     self.showSearchResultFrom(placemarks!.first!)
                 }
-            } as! CLGeocodeCompletionHandler)
+            }
         }
-        searchBar.endEditing(true)
+        self.resignFirstResponder()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar){
-        searchBar.endEditing(true)
+        searchBar.resignFirstResponder()
     }
     
     func searchBar(_ searchBar: UISearchBar,textDidChange searchText: String){
