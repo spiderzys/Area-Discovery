@@ -14,7 +14,9 @@ class FlickrCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var backgroundImageView: UIImageView!
     
+    @IBOutlet weak var reportButton: UIButton!
     
+    var imageUrlString:String?
     
     override func awakeFromNib() {
         super.awakeFromNib()

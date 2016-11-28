@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class FourthViewController: ViewController, XMLParserDelegate {
+class FourthViewController: ViewController, XMLParserDelegate, MFMailComposeViewControllerDelegate {
     
     @IBOutlet weak var radiusSegmentedControl: UISegmentedControl!
     
@@ -115,6 +116,7 @@ class FourthViewController: ViewController, XMLParserDelegate {
         let flickr = flickrArray[(indexPath as NSIndexPath).row]
         let flickrPhotoViewController = FlickrPhotoViewController.init(nibName: "FlickrPhotoViewController", bundle: nil, id: flickr["id"]!, title: flickr["title"]!)
         
+        
         self.present(flickrPhotoViewController, animated: true, completion: {
             flickrPhotoViewController.flickrImageView.image = flickrCell.backgroundImageView.image
             flickrPhotoViewController.backgroundImageView.image = self.backgroundImageView.image
@@ -156,7 +158,10 @@ class FourthViewController: ViewController, XMLParserDelegate {
         let id = flickr["id"]!
         
         let favortieString = baseUrlString + favoriteMethod + "&photo_id=" + id + "&" + apiKey + "&format=json&nojsoncallback=1"
+        flickrCell.reportButton.removeTarget(nil, action: nil, for: .allEvents)
+        flickrCell.reportButton.addTarget(self, action: #selector(reportPhoto(sender:)), for: .touchUpInside)
         
+        flickrCell.imageUrlString = "https://farm" + farm + ".staticflickr.com/" + server + "/" + id + "_" + secret + ".jpg"
         let ImageData = self.imageCache?.object(forKey: NSString.init(format: "%d,%d", indexPath.section,indexPath.row))
         if ImageData != nil {
             flickrCell.backgroundImageView.image = UIImage.init(data: ImageData as! Data)
@@ -164,8 +169,7 @@ class FourthViewController: ViewController, XMLParserDelegate {
         else{
             
             
-            let backgroundImageString = "https://farm" + farm + ".staticflickr.com/" + server + "/" + id + "_" + secret + ".jpg"
-            let task = URLSession.shared.dataTask(with: URL.init(string: backgroundImageString)!, completionHandler: {(data, response, error) in
+            let task = URLSession.shared.dataTask(with: URL.init(string: flickrCell.imageUrlString!)!, completionHandler: {(data, response, error) in
                 
                 let updateCell = collectionView.cellForItem(at: indexPath) as? FlickrCollectionViewCell
                 if updateCell != nil && data != nil {
@@ -208,6 +212,45 @@ class FourthViewController: ViewController, XMLParserDelegate {
         
         return flickrCell
     }
+    
+    func reportPhoto(sender:UIButton){
+        
+        guard MFMailComposeViewController.canSendMail() else{
+            return
+        }
+        
+        let flickerCell = sender.superview!.superview! as! FlickrCollectionViewCell
+        let emailTitle = "Photo Report"
+        let messageBody = "For the photo from url: " + flickerCell.imageUrlString!
+        let toRecipents = ["spiderzys@hotmail.com"]
+        let mc: MFMailComposeViewController = MFMailComposeViewController()
+        mc.mailComposeDelegate = self
+        mc.setSubject(emailTitle)
+        mc.setMessageBody(messageBody, isHTML: false)
+        mc.setToRecipients(toRecipents)
+        
+        present(mc, animated: true, completion: nil)
+        
+    }
+    
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        switch result {
+            
+        case .sent:
+            controller.dismiss(animated: true, completion: {
+                self.showAlert("Thanks for your report. We will deal with it soon")
+            })
+            
+            
+        default:
+            controller.dismiss(animated: true, completion: nil)
+        }
+        
+    }
+    
+  
+    
     
     @IBAction func segmentChanged(_ sender: AnyObject) {
         switch radiusSegmentedControl.selectedSegmentIndex {
